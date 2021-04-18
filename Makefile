@@ -1,7 +1,7 @@
 # Grupo: 
-# Beatriz Matias Santana Maia: 2019107651
+# Beatriz Maia: 2019107651
 # Ryan Monteiro: 2019202359
-# Sophie Dilhon Gama: 2019107591
+# Sophie Dilhon: 2019107591
 # Victor Aguiar Marques: 2018206897
 
 CC		:= gcc
