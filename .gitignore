@@ -1,0 +1,8 @@
+# Arquivos gerado por c
+*.o
+*.out
+trab3
+
+# Extensoes bloqueadas
+*.zip
+*.tar.*
