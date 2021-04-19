@@ -6,3 +6,6 @@ trab3
 # Extensoes bloqueadas
 *.zip
 *.tar.*
+
+# Pastas ignoradas
+.vscode
