@@ -5,5 +5,6 @@
 
 struct trie {
     Trie* characters[37];
-    int index;   
-}
+    int isLeaf;   
+};
+
