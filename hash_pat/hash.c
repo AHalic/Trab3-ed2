@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "hash.h"
-#include "palavra.h"
+#include "word.h"
 
 struct hash {
     Palavra** vet;
