@@ -1,4 +1,4 @@
-#include"AVL.h"
+#include"Palavra.h"
 #define CHAR_SIZE 36
 
 struct Trie{
