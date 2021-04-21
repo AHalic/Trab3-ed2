@@ -36,7 +36,7 @@ void insert(struct Trie* *head, char* str, int j, int i)
 				curr->character[*str - 'a'] = getNewTrieNode();
 				aux = curr->character[*str - 'a'];
 			}
-		aux = curr->character[*str - 'a'];
+			aux = curr->character[*str - 'a'];
 		}
 		curr = aux;
 		str++;
@@ -48,17 +48,17 @@ void insert(struct Trie* *head, char* str, int j, int i)
 		p->string = (char*)malloc(sizeof(char)*(strlen(c)+1));
 		char *wrd = p->string;
 		strcpy(wrd, c);
-		p->file = (arquivo*)malloc(sizeof(arquivo));
-		arquivo *arq = p->file;
+		// p->file = (arquivo*)malloc(sizeof(arquivo));
+		// arquivo *arq = p->file;
 		arq->Prox = NULL;
 		arq->file = j;
-		arq->findices = (Ind*)malloc(sizeof(Ind));
-		Ind * indices = arq->findices;
+		// arq->findices = (Ind*)malloc(sizeof(Ind));
+		// Ind * indices = arq->findices;
 		indices->index = i;
 		indices->Prox = NULL;
 		curr->p = p;
 	}else{
-		arquivo * arquivo1 = curr->p->file;
+		// arquivo * arquivo1 = curr->p->file;
         arquivo *ant, *aux;
         for(aux = arquivo1; aux != NULL; aux = aux->Prox){
 			ant = aux;
@@ -68,21 +68,21 @@ void insert(struct Trie* *head, char* str, int j, int i)
 			ant->Prox = aux;
 			aux->Prox = NULL;
 			aux->file = j;
-			Ind*indnovo1 = (Ind*)malloc(sizeof(Ind));
-			aux->findices = indnovo1 ;
+			// Ind*indnovo1 = (Ind*)malloc(sizeof(Ind));
+			// aux->findices = indnovo1 ;
 			indnovo1->index = i;
 			indnovo1->Prox = NULL;     
         }else{
 
-            Ind* ind, *inda;
-            for(ind = ant->findices; ind!= NULL; ind = ind->Prox){
-                inda = ind;
-            }
-            Ind * indnovo = (Ind*)malloc(sizeof(Ind));
-            inda->Prox = indnovo;
-            ind = inda->Prox;
-            indnovo->Prox = NULL;
-            indnovo->index = i;
+            // Ind* ind, *inda;
+            // for(ind = ant->findices; ind!= NULL; ind = ind->Prox){
+            //     inda = ind;
+            // }
+            // Ind * indnovo = (Ind*)malloc(sizeof(Ind));
+            // inda->Prox = indnovo;
+            // ind = inda->Prox;
+            // indnovo->Prox = NULL;
+            // indnovo->index = i;
 		}
 	}
 }
@@ -126,6 +126,7 @@ int haveChildren(struct Trie* curr)
 	return 0;
 }
 
+// Acho q n precisamos
 int deletion(struct Trie* *curr, char* str)
 {
 	if (*curr == NULL)

@@ -1,4 +1,5 @@
 #include "Palavra.h"
+#include <ctype.h>
 
 void tolowers(char *string){
     for (int i = 0; i < strlen(string); i++){
@@ -9,7 +10,8 @@ void tolowers(char *string){
 int Filter2(char *str){
     int i, x = 0, j = 0;
     for (i = 0; i < strlen(str); i++){
-        if (isletter(str[i])||isnumb(str[i])){
+        // TODO: aceita hifen tb
+        if (isletter(str[i]) || isnumb(str[i]) || str[i] == '-'){ // olha o 45 na asc2 o.<
             str[j] = str[i];
             j++;
             continue;
@@ -29,14 +31,14 @@ void Imprime_Palavra(Palavra item, char** argv){
     struct arquivo *q;
     struct ind *r;
     printf("Nome: %s\n", item.string);
-    for (q = item.file; q != NULL; q = q->Prox){
+    for (q = item.listaArquivos; q != NULL; q = q->Prox){
         // if (q->findices == NULL){
         //     continue;
         // }
-        printf("%s: ", argv[q->file + 1]);
-        for (r = q->findices; r != NULL; r = r->Prox){
-            printf("%d ", r->index);
-        }
+        // printf("%s: ", argv[q->listaArquivos + 1]);
+        // for (r = q->findices; r != NULL; r = r->Prox){
+        //     printf("%d ", r->index);
+        // }
         putchar('\n');
     }
 }
@@ -44,11 +46,11 @@ void Imprime_Palavra(Palavra item, char** argv){
 Palavra* Libera_Palavra(Palavra item){
     struct arquivo *q, *qaux;
     struct ind *r, *raux;
-    for (q = item.file; q != NULL; q = qaux){
-        for (r = q->findices; r != NULL; r = raux){
-            raux=r->Prox;
-            free(r);
-        }
+    for (q = item.listaArquivos; q != NULL; q = qaux){
+        // for (r = q->findices; r != NULL; r = raux){
+        //     raux=r->Prox;
+        //     free(r);
+        // }
         qaux = q->Prox;
         free(q);
     }
