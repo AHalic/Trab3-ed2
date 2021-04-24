@@ -1,5 +1,5 @@
 #include"Palavra.h"
-#define CHAR_SIZE 36
+#define CHAR_SIZE 37
 
 struct Trie{
 	int isLeaf;

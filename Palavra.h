@@ -6,19 +6,21 @@
 
 typedef struct Palavra{
     char* string;
-    struct arquivo *file;
+    struct arquivo *listaArquivos;
 }Palavra;
 
+// Lista de arquivos que a palavra apar
 typedef struct arquivo{
     int file;
-    struct ind *findices;
+    char *nomeArquivo;
+    // struct ind *findices;
     struct arquivo *Prox;
 }arquivo;
 
-typedef struct ind{
-    int index;
-    struct ind *Prox;
-}Ind; 
+// typedef struct ind{
+//     int index;
+//     struct ind *Prox;
+// }Ind; 
 
 
 //função para ler os arquivos

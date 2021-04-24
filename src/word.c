@@ -2,17 +2,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 struct word {
     char* string;
-    int n;
+    int index;
     Word* next;
 };
 
 Word* initWord (char* str) {
     Word* w = (Word*) malloc (sizeof(Word));
     w->string = strdup(str);
-    w->n = 0;
+    w->index = -1;
     w->next = NULL;
     return w;
 }
@@ -21,12 +22,12 @@ char* getString (Word* w) {
     return w->string;
 }
 
-void updateNAppearance (Word* w) {
-    w->n++;
+void setIndex (Word* w, int index) {
+    w->index = index;
 }
 
-int getNAppareance (Word* w) {
-    return w->n;
+int getIndex (Word* w) {
+    return w->index;
 }
 
 Word* searchWord (Word* w, char* string) {
@@ -60,7 +61,7 @@ void showWordList (Word* w) {
     Word* aux;
 
     for (aux = w; aux != NULL; aux = aux->next) {
-        printf("String: %s - Times: %d \n", aux->string, aux->n);
+        printf("String: %s - Times: %d \n", aux->string, aux->index);
     }
 }
 

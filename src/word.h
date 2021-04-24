@@ -22,14 +22,14 @@ char* getString (Word* pal);
  * Input: Word*
  * Output: void
  */ 
-void updateNAppearance (Word* pal);
+void setIndex (Word* pal, int index);
 
 /* 
  * Retorna o numero de ocorrencias daquela word
  * Input: Word*
  * Output: int
  */ 
-int getNAppareance (Word* pal);
+int getIndex (Word* pal);
 
 /*
  * Verifica se a word existe dentro da lista de palavras
