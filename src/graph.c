@@ -2,13 +2,6 @@
 #include "word.h"
 #include "trie.h"
 
-struct node{ 
-    int id;
-    char* fileName;
-    struct node* files;                  // lista de paginas que apontam para esse nó
-    int influeciados, influencia;
-};
-
 
 /*
 

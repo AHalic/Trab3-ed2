@@ -6,6 +6,8 @@
 #include "utils.h"
 #include "node.h"
 
+#define HASH_SZ 127 // TO DO: pesquisar como escolher um tamanho de HASH
+
 int main(int argc, char* argv[]) {
     if (argc != 2)
         return 1;
@@ -14,11 +16,10 @@ int main(int argc, char* argv[]) {
     indexFile = openFile(argv[1], "index.txt");
     graphFile = openFile(argv[1], "graph.txt");
 
-    Hash* hashFiles = initHash();
+    Hash* hashFiles = initHash(HASH_SZ);
     Node* nodeList;
 
-    readIndex(indexFile, hashFiles);
-    showHash(hashFiles);    
+    // readIndex(indexFile, hashFiles);
 
     char* lineBuffer = NULL;
     size_t n;
@@ -27,11 +28,11 @@ int main(int argc, char* argv[]) {
         getline(&lineBuffer, &n, indexFile);
         lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
 
-        Word* auxWord = acess(hashFiles, lineBuffer);
-        updateNAppearance(auxWord);
-        // showWordList(auxWord);
+        acess(hashFiles, lineBuffer);
     }
 
-    stopWordsFile = openFile(argv[1], "stopwords.txt");
+    showHash(hashFiles);    
+
+    // stopWordsFile = openFile(argv[1], "stopwords.txt");
     return 0;
 }

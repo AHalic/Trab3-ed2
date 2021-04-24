@@ -1,20 +1,23 @@
 #include "trie.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "word.h"
+#include "node.h"
 
 #define SZ 37 // 26 letras + 10 digitos + hifen
 
 struct trie {
     Trie* characters[37];
-    Word* word;
+    Node* files;
     int isLeaf;   
     int isStop;
 };
 
 // Function that returns a new Trie node
-Trie* getNewTrieNode() {
+static Trie* getNewTrieNode() {
 	Trie* node = (Trie*)malloc(sizeof(Trie));
-	node->word = NULL;
+	node->files = NULL;
 	node->isLeaf = 0;
 	node->isStop = 0;
 
@@ -25,11 +28,10 @@ Trie* getNewTrieNode() {
 }
 
 // Iterative function to insert a string in Trie.
-void insert(Trie* *head, char* str, char* file, int isStop) {
+void insert(Trie** head, char* str, char* file, int isStop) {
 	// start from root node
 	Trie* curr = *head, *aux;
 	char* c = str;
-	//Filter2(str);
 	while (*c) {
 		if((*str - '0')>=0 && (*str - '0')<=9){
 			// getNewTrieNode para digitos
@@ -60,51 +62,46 @@ void insert(Trie* *head, char* str, char* file, int isStop) {
 	if(curr->isLeaf == 0) {
 		curr->isLeaf = 1;
 		curr->isStop = isStop;
-		Word* p = initWord(file);
-        insertWord(curr->word, p);
+		Node* p = initWord(file);
+        insertWord(curr->files, p);
 
 	} else {
-		Word* aux = searchWord(curr->word, file);
+		Node* aux = searchWord(curr->files, file);
 		
 		if (!aux) {
-			Word* p = initWord(file);
-			insertWord(curr->word, p);
+			Node* p = initWord(file);
+			insertWord(curr->files, p);
 		} 
 	}
 }
 
 int search(Trie* head, char* str,  char** argv){
+	if (head == NULL) return 0;
+	
 	int i = 0;
-	if (head == NULL)
-		return 0;
+
 	Trie* curr = head;
-	char* aux = malloc(sizeof(char)*(strlen(str)+1));
-	strcpy(aux, str);
-	tolowers(aux);
-	Filter2(aux);
-	while (aux[i]){
-		if((aux[i] - '0')>=0 && (aux[i] - '0')<=9){
-			curr = curr->characters[(aux[i] - '0') + 26];
+	// char* aux = (char*) malloc(sizeof(char) * (strlen(str)+1));
+	// strcpy(aux, str);
+	
+
+	while (str[i]) {
+		if((str[i] - '0') >= 0 && (str[i] - '0') <= 9){
+			curr = curr->characters[(str[i] - '0') + 26];
 		}else{
-			curr = curr->characters[aux[i] - 'a'];
+			curr = curr->characters[str[i] - 'a'];
 		}
 		
-		if (curr == NULL){
-			printf("gotcha\n\n");
-			free(aux);
+		if (curr == NULL) {
 			return 0;
 		}
 		i++;
 	}
-	if(curr->isLeaf == 1){
-		// Imprime_Word(*(curr->p), argv);
-	}
-	free(aux);
+
 	return curr->isLeaf;
 }
 
-int haveChildren(Trie* curr)
-{
+int haveChildren(Trie* curr) {
 	for (int i = 0; i < SZ; i++)
 		if (curr->characters[i])
 			return 1;	// child found
@@ -152,8 +149,7 @@ int deletion(Trie* *curr, char* str)
 	return 0;
 }
 
-void free_all(Trie* curs)
-{
+void free_all(Trie* curs) {
     int i;
     if(!curs) return;
     for (i = 0; i < SZ; i++){
@@ -161,8 +157,8 @@ void free_all(Trie* curs)
 			free_all(curs->characters[i]);
 		}
 		if(curs->isLeaf == 1){
-			Libera_Word(*(curs->p));
-			free(curs->p);
+			destroyNode(curs->files);
+			free(curs->files);
 			curs->isLeaf = 0;
 		}
 	}

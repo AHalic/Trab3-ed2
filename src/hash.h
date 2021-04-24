@@ -1,6 +1,6 @@
 #ifndef HASH_H
 #define HASH_H
-#include "word.h"
+#include "node.h"
 
 typedef struct hash Hash;
 
@@ -9,14 +9,16 @@ typedef struct hash Hash;
  * Input: void
  * Output: Hash*
  */ 
-Hash* initHash (void);
+Hash* initHash (int sz);
 
 /*
  * Atualiza a tabela Hash
  * Input: Hash*, char*
  * Output: Word*
  */ 
-Word* acess (Hash* h, char* string);
+Node* acess (Hash* h, char* string);
+
+Node* find(Hash* h, char* string);
 
 /*
  * Imprime a tabela Hash

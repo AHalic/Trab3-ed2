@@ -17,6 +17,7 @@ char* stringConcat(char* dir, char* file) {
     strcpy(filePath, dir);
     strcat(filePath, fileName);
 
+
     return filePath;
 }
 
@@ -37,18 +38,18 @@ FILE* openFile(char* dir, char* file){
 }
 
 Hash* readIndex(FILE* fp, Hash* hashTable) {
-    char* lineBuffer = NULL;
-    size_t n;
-    int i = 0;
+    // char* lineBuffer = NULL;
+    // size_t n;
+    // int i = 0;
 
-    while(!feof(fp)) {
-        getline(&lineBuffer, &n, fp);
-        lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
+    // while(!feof(fp)) {
+    //     getline(&lineBuffer, &n, fp);
+    //     lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
 
-        Word* auxWord = acess(hashTable, lineBuffer);
-        setIndex(auxWord, i++);
-        // showWordList(auxWord);
-    }
+    //     Word* auxWord = acess(hashTable, lineBuffer);
+    //     setIndex(auxWord, i++);
+    //     // showWordList(auxWord);
+    // }
 
-    return hashTable;
+    // return hashTable;
 }

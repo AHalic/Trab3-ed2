@@ -1,5 +1,6 @@
 #include "node.h"
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * Lista de connection (conexoes), que aponta para a pagina conectada a pagina 
@@ -45,6 +46,11 @@ Node* initNode(int id, char* fileName) {
     return new;
 }
 
+Node** initNodeVector(int sz) {
+    Node** vector = (Node**) malloc (sizeof(Node*) * sz);
+    return vector;
+}
+
 void addConnection(Node* origin, Node* connect) {
     if (origin == NULL || connect == NULL) return;
 
@@ -80,4 +86,61 @@ void destroyNode(Node* node) {
         free(aux1);
         aux1 = aux2;
     }
+}
+
+void destroyNodeVector(Node** vector, int sz) {
+    for (int i = 0; i< sz; i++) {
+        destroyNode(vector[i]);
+    }
+    free(vector);
+}
+
+char* getFileName(Node* node) {
+    return node->fileName;
+}
+
+int getNodeId(Node* node) {
+    return node->id;
+}
+
+double getPRold(Node* node) {
+    return node->PRold;
+}
+
+double getPRnew(Node* node) {
+    return node->PRnew;
+}
+
+int getNodeInfluenced(Node* node) {
+    return node->influenced;
+}
+
+void setNodeInfluenced(Node* node, int value) {
+    node->influenced = value;
+}
+
+int getNodeInfluences(Node* node) {
+    return node->influences;
+}
+
+void setNodeInfluences(Node* node, int value) {
+    node->influences = value;
+}
+
+void insertNextNode(Node* origin, Node* next) {
+    origin->next = next;
+}
+
+Node *searchNode(Node *node, char *string, int *flag) {
+    Node* aux, *before = NULL;
+    
+    for (aux = node; aux != NULL; aux = aux->next) {
+        if (strcmp (string, aux->fileName) == 0) {
+            *flag = 1;
+            return aux;
+        }
+        before = aux;
+    }
+
+    return before;
 }

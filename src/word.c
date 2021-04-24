@@ -76,3 +76,4 @@ void destroyWordList (Word* w) {
         aux1 = aux2;
     }
 }
+

@@ -3,21 +3,21 @@
 #include <stdio.h>
 #include <string.h>
 #include "word.h"
+#include "node.h"
 
-#define HASH_SZ 127 // TO DO: pesquisar como escolher um tamanho de HASH
 
 struct hash {
-    Word** array;
+    Node** array;
     int sz;
 };
 
-Hash* initHash (void) {
+Hash* initHash (int sz) {
     Hash* h = (Hash*) malloc (sizeof(Hash));
-    h->sz = HASH_SZ;
+    h->sz = sz;
 
-    h->array = (Word**) malloc (sizeof(Word*) * HASH_SZ);
+    h->array = initNodeVector(sz);
 
-    for (int i = 0; i < HASH_SZ; i++) {
+    for (int i = 0; i < sz; i++) {
         h->array[i] = NULL;
     }
 
@@ -25,7 +25,7 @@ Hash* initHash (void) {
 }
 
 // Hash function
-static int hash (char* s, int sz) {
+static int hashCode (char* s, int sz) {
     int total = 0;
     for(int i  = 0; s[i] != '\0'; i++) {
         total += s[i];
@@ -34,36 +34,48 @@ static int hash (char* s, int sz) {
     return (total % sz);
 }
 
-Word* acess (Hash* h, char* string) {
-    Word* aux_w;
+Node* acess (Hash* h, char* string) {
+    Node* aux_list, *aux_node;
+    int flag = 0;
+    char *aux_string = strdup(string);
 
-    int index = hash(string, h->sz);
+    int index = hashCode(aux_string, h->sz);
+    printf("index: %d\n", index);
 
-    aux_w = searchWord(h->array[index], string);
-
-    if (aux_w)
-        return aux_w;
+    aux_list = searchNode(h->array[index], aux_string, &flag);
+    if (flag)
+        return aux_list;
 
     // se nao encontrou, se p == NULL
 
-    aux_w = initWord(string);
-    h->array[index] = insertWord(h->array[index], aux_w);
+    aux_node = initNode(index, aux_string);
+    printf("node: %s i: %d\n", getFileName(aux_node), getNodeId(aux_node));
 
-    return aux_w;
+    if (h->array[index] == NULL) {
+        h->array[index] = aux_node;
+    } else  {
+        insertNextNode(aux_list, aux_node);
+    }
+
+    return aux_node; // TODO: rever se precisa retornar algo
+}
+
+Node* find(Hash* h, char* string) {
+    int index = hashCode(string, h->sz);
+    Node* aux_n = searchNode(h->array[index], string, NULL);
+    return aux_n;
 }
 
 void showHash (Hash* h) {
     for (int i = 0; i < h->sz; i++) {
         printf("Posição array[%d]:\n", i);
-        showWordList(h->array[i]);
+        if (h->array[i] != NULL) {
+            printf("Node: %s Index: %d\n", getFileName(h->array[i]), getNodeId(h->array[i]));
+        }
     }
 }
 
 void destroyHash (Hash* h) {
-    for (int i = 0; i < h->sz; i++) {
-        destroyWordList(h->array[i]);
-    }
-
-    free(h->array);
+    destroyNodeVector(h->array, h->sz);
     free(h);
 }
