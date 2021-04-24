@@ -4,6 +4,7 @@
 #include "hash.h"
 #include "word.h"
 #include "utils.h"
+#include "node.h"
 
 int main(int argc, char* argv[]) {
     if (argc != 2)
@@ -12,12 +13,25 @@ int main(int argc, char* argv[]) {
     FILE* indexFile,* graphFile,* stopWordsFile;
     indexFile = openFile(argv[1], "index.txt");
     graphFile = openFile(argv[1], "graph.txt");
-    stopWordsFile = openFile(argv[1], "stopwords.txt");
 
     Hash* hashFiles = initHash();
+    Node* nodeList;
 
     readIndex(indexFile, hashFiles);
     showHash(hashFiles);    
 
+    char* lineBuffer = NULL;
+    size_t n;
+
+    while(!feof(indexFile)) {
+        getline(&lineBuffer, &n, indexFile);
+        lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
+
+        Word* auxWord = acess(hashFiles, lineBuffer);
+        updateNAppearance(auxWord);
+        // showWordList(auxWord);
+    }
+
+    stopWordsFile = openFile(argv[1], "stopwords.txt");
     return 0;
 }
