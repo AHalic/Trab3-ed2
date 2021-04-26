@@ -1,10 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 #include "hash.h"
-#include "word.h"
 #include "utils.h"
-#include "node.h"
 
 #define HASH_SZ 127 // TO DO: pesquisar como escolher um tamanho de HASH
 
@@ -28,10 +25,12 @@ int main(int argc, char* argv[]) {
         getline(&lineBuffer, &n, indexFile);
         lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
 
-        acess(hashFiles, lineBuffer);
+        access(hashFiles, lineBuffer);
     }
 
-    showHash(hashFiles);    
+//    showHash(hashFiles);
+
+
 
     // stopWordsFile = openFile(argv[1], "stopwords.txt");
     return 0;

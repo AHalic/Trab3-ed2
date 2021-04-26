@@ -29,7 +29,7 @@ typedef struct connection {
 struct node{
     int id;                        // id do nó
     char* fileName;                // nome do arquivo
-    double PRold, PRnew;    
+    double PR_old, PR_new;
     Connection* connection;        // lista de arquivos que tem link para esse
     int influenced, influences;    // quantidade de links para este e deste nó
     Node* next;                    // proximo node na lista 
@@ -103,12 +103,12 @@ int getNodeId(Node* node) {
     return node->id;
 }
 
-double getPRold(Node* node) {
-    return node->PRold;
+double getPR_old(Node* node) {
+    return node->PR_old;
 }
 
-double getPRnew(Node* node) {
-    return node->PRnew;
+double getPR_new(Node* node) {
+    return node->PR_new;
 }
 
 int getNodeInfluenced(Node* node) {

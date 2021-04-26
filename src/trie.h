@@ -5,7 +5,7 @@ typedef struct trie Trie;
 
 void insert(Trie* *head, char* str, char* file, int isStop);
 
-int search(Trie* head, char* str,  char** argv);
+int search(Trie *head, const char *str);
 
 int haveChildren(Trie* curr);
 

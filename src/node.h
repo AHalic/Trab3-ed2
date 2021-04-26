@@ -21,9 +21,9 @@
 
     int getNodeId(Node* node);
 
-    double getPRold(Node* node);
+    double getPR_old(Node* node);
 
-    double getPRnew(Node* node);
+    double getPR_new(Node* node);
 
     int getNodeInfluenced(Node* node);
 

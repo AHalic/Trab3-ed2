@@ -1,15 +1,13 @@
 #include "trie.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "word.h"
-#include "node.h"
 
 #define SZ 37 // 26 letras + 10 digitos + hifen
 
 struct trie {
     Trie* characters[37];
-    Node* files;
+    Word* files;
     int isLeaf;   
     int isStop;
 };
@@ -30,7 +28,7 @@ static Trie* getNewTrieNode() {
 // Iterative function to insert a string in Trie.
 void insert(Trie** head, char* str, char* file, int isStop) {
 	// start from root node
-	Trie* curr = *head, *aux;
+	Trie* curr = *head, *aux_trie;
 	char* c = str;
 	while (*c) {
 		if((*str - '0')>=0 && (*str - '0')<=9){
@@ -38,23 +36,23 @@ void insert(Trie** head, char* str, char* file, int isStop) {
 			if (curr->characters[(*str - '0') + 26] == NULL) {
 				curr->characters[(*str - '0') + 26] = getNewTrieNode();
 			}
-			aux = curr->characters[(*str - '0') + 26];
+            aux_trie = curr->characters[(*str - '0') + 26];
 		} else if ((*str - '0') >= 0 && (*str = '0')<26) {
 			// getNewTrieNode para letras do alfabeto
 			if (curr->characters[*str - 'a'] == NULL) {
 				curr->characters[*str - 'a'] = getNewTrieNode();
-				aux = curr->characters[*str - 'a'];
+                aux_trie = curr->characters[*str - 'a'];
 			}
-			aux = curr->characters[*str - 'a'];
+            aux_trie = curr->characters[*str - 'a'];
 		} else {
 			// getNewTrieNode para hifen		
 			if (curr->characters[36] == NULL) {
 				curr->characters[36] = getNewTrieNode();
-				aux = curr->characters[36];
+                aux_trie = curr->characters[36];
 			}
-			aux = curr->characters[36];
+            aux_trie = curr->characters[36];
 		}
-		curr = aux;
+		curr = aux_trie;
 		str++;
 	}
 
@@ -62,20 +60,20 @@ void insert(Trie** head, char* str, char* file, int isStop) {
 	if(curr->isLeaf == 0) {
 		curr->isLeaf = 1;
 		curr->isStop = isStop;
-		Node* p = initWord(file);
+		Word* p = initWord(file);
         insertWord(curr->files, p);
 
 	} else {
-		Node* aux = searchWord(curr->files, file);
+		Word* aux_word = searchWord(curr->files, file);
 		
-		if (!aux) {
-			Node* p = initWord(file);
+		if (!aux_word) {
+			Word* p = initWord(file);
 			insertWord(curr->files, p);
 		} 
 	}
 }
 
-int search(Trie* head, char* str,  char** argv){
+int search(Trie *head, const char *str) {
 	if (head == NULL) return 0;
 	
 	int i = 0;
@@ -110,12 +108,9 @@ int haveChildren(Trie* curr) {
 }
 
 // Acho q n precisamos
-int deletion(Trie* *curr, char* str)
-{
-	if (*curr == NULL)
-		return 0;
-	if (*str)
-	{
+int deletion(Trie* *curr, char* str) {
+	if (*curr == NULL) return 0;
+	if (*str) {
 		if (*curr != NULL && (*curr)->characters[*str - 'a'] != NULL &&
 			deletion(&((*curr)->characters[*str - 'a']), str + 1) &&
 			(*curr)->isLeaf == 0)
@@ -157,7 +152,7 @@ void free_all(Trie* curs) {
 			free_all(curs->characters[i]);
 		}
 		if(curs->isLeaf == 1){
-			destroyNode(curs->files);
+			destroyWordList(curs->files);
 			free(curs->files);
 			curs->isLeaf = 0;
 		}

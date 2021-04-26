@@ -16,7 +16,7 @@ Hash* initHash (int sz);
  * Input: Hash*, char*
  * Output: Word*
  */ 
-Node* acess (Hash* h, char* string);
+Node* access (Hash* h, char* string);
 
 Node* find(Hash* h, char* string);
 

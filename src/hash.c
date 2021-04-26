@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "word.h"
-#include "node.h"
 
 
 struct hash {
@@ -34,13 +32,13 @@ static int hashCode (char* s, int sz) {
     return (total % sz);
 }
 
-Node* acess (Hash* h, char* string) {
+Node* access (Hash* h, char* string) {
     Node* aux_list, *aux_node;
     int flag = 0;
     char *aux_string = strdup(string);
 
     int index = hashCode(aux_string, h->sz);
-    printf("index: %d\n", index);
+//    printf("index: %d\n", index);
 
     aux_list = searchNode(h->array[index], aux_string, &flag);
     if (flag)
@@ -49,7 +47,7 @@ Node* acess (Hash* h, char* string) {
     // se nao encontrou, se p == NULL
 
     aux_node = initNode(index, aux_string);
-    printf("node: %s i: %d\n", getFileName(aux_node), getNodeId(aux_node));
+//    printf("node: %s i: %d\n", getFileName(aux_node), getNodeId(aux_node));
 
     if (h->array[index] == NULL) {
         h->array[index] = aux_node;
@@ -68,7 +66,7 @@ Node* find(Hash* h, char* string) {
 
 void showHash (Hash* h) {
     for (int i = 0; i < h->sz; i++) {
-        printf("Posição array[%d]:\n", i);
+        printf("index array[%d]:\n", i);
         if (h->array[i] != NULL) {
             printf("Node: %s Index: %d\n", getFileName(h->array[i]), getNodeId(h->array[i]));
         }
