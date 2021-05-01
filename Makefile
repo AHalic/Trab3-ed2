@@ -39,7 +39,7 @@ run0:
 	./$(EXECUTABLE) $(DIR_ENT0) 
 	
 $(EXECUTABLE): $(OBJECTS)
-	$(CC) $(CFLAGS) $(CINCLUDES) $^ -o $@ $(LIBRARIES)
+	$(CC) $(CFLAGS) $(CINCLUDES) $^ -o $@ $(LIBRARIES) -lm
 
 # Comandos para executar com valgrind
 val: 

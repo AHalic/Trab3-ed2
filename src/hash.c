@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 struct hash {
     Node** array;
@@ -79,9 +80,19 @@ void destroyHash (Hash* h) {
 void updatePageRank(Hash* vetor){
     int tam = vetor->sz;
     while (1){
+        double error = 0;
         for (int i = 0; i < tam; i++){
             Node* aux = vetor->array[i];
-            calcPageRank(aux);
+            calcPageRank(aux, tam);
+        }
+        for(int i = 0; i < tam; i++){
+            Node*aux = vetor->array[i];
+            double diff = changePRs(aux);
+            error += diff*diff;
+        }
+        error = sqrt(error);
+        if(error <= 0.000001){
+            break;
         }
     } 
 }

@@ -58,10 +58,10 @@ int main(int argc, char* argv[]) {
     }
     free(lineBuffer);
     
-    destroyHash(hashFiles);
     for (int i = 0; i < count_files; i++) {
         printNode(filesVector[i]);
     }
+    destroyHash(hashFiles);
 
     destroyNodeVector(filesVector, count_files);
     

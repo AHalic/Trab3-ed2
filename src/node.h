@@ -39,4 +39,9 @@
 
     Node *searchNode(Node *node, char *string, int *flag);
 
+    void calcPageRank(Node* node, int nNodes);
+
+    double changePRs(Node* node);
+
+
 #endif

@@ -30,7 +30,7 @@ typedef struct connection {
 struct node{
     int id;                        // id do nó
     char* fileName;                // nome do arquivo
-    double PR_old, PR_new;
+    double oldPR, newPR;
     Connection* connection;        // lista de arquivos que tem link para esse
     int influenced, influences;    // quantidade de links para este e deste nó
     Node* next;                    // proximo node na lista 
@@ -43,7 +43,7 @@ Node* initNode(int id, char* fileName) {
     new->fileName = fileName;
     new->connection = NULL;
     new->influenced = new->influences = 0;
-    new->PR_old = new->PR_new = 0;
+    new->oldPR = new->newPR = 0;
 
     return new;
 }
@@ -110,7 +110,7 @@ void printConnection(Connection* connection) {
 void printNode(Node* node) {
     printf("[%d] %s: \n"
         "\tPR old=%f PR new=%f\n"
-        "\tqtdInfluenciados=%d qtdInfluncias=%d\n", node->id, node->fileName, node->PR_old, node->PR_new, node->influenced, node->influences);
+        "\tqtdInfluenciados=%d qtdInfluncias=%d\n", node->id, node->fileName, node->oldPR, node->newPR, node->influenced, node->influences);
     printConnection(node->connection);
     printf("\n");
 }
@@ -124,11 +124,11 @@ int getNodeId(Node* node) {
 }
 
 double getPR_old(Node* node) {
-    return node->PR_old;
+    return node->oldPR;
 }
 
 double getPR_new(Node* node) {
-    return node->PR_new;
+    return node->newPR;
 }
 
 int getNodeInfluenced(Node* node) {
@@ -165,4 +165,22 @@ Node *searchNode(Node *node, char *string, int *flag) {
     return before;
 }
 
-/void calcPageRank(Node* node)
+void calcPageRank(Node* node, int nNodes){
+    if(node->oldPR) {
+        node->newPR = 1 / nNodes;
+    }else{
+        node->newPR = 0.15 / nNodes + 0.85 * node->oldPR;
+        Connection * connection = node->connection;
+        while (connection){
+            Node* aux = connection->node;
+            node->newPR += 0.85 * aux->oldPR/aux->influenced;
+            connection = connection->next;
+        }
+    }
+}
+
+double changePRs(Node* node){
+    int diff = node->newPR - node->oldPR;
+    node->oldPR = node->newPR;
+    return diff;
+}
