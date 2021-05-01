@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 /**
  * Lista de connection (conexoes), que aponta para a pagina conectada a pagina 
@@ -76,8 +77,6 @@ void destroyConnections(Node* node) {
         aux1 = aux2;
     }
     node->connection = NULL;
-    
-    // free(node->connection);
 }
 
 void destroyNode(Node* node) {
@@ -167,21 +166,32 @@ Node *searchNode(Node *node, char *string, int *flag) {
 }
 
 void calcPageRank(Node* node, int nNodes){
-    if(node->oldPR) {
-        node->newPR = 1 / nNodes;
+    if(node->oldPR == 0) {
+        node->newPR = 1.0 / nNodes;
     }else{
-        node->newPR = 0.15 / nNodes + 0.85 * node->oldPR;
-        Connection * connection = node->connection;
-        while (connection){
-            Node* aux = connection->node;
-            node->newPR += 0.85 * aux->oldPR/aux->influenced;
-            connection = connection->next;
+        if(node->influenced == 0){
+            node->newPR = 0.15 / nNodes + 0.85 * node->oldPR;
+            Connection * connection = node->connection;
+            while (connection){
+                Node* aux = connection->node;
+                node->newPR += 0.85 * aux->oldPR/aux->influenced;
+                connection = connection->next;
+            }
+        }else{
+            node->newPR = 0.15 / nNodes;
+            Connection * connection = node->connection;
+            while (connection){
+                Node* aux = connection->node;
+                node->newPR += 0.85 * aux->oldPR/aux->influenced;
+                connection = connection->next;
+            }
         }
     }
 }
 
 double changePRs(Node* node){
-    int diff = node->newPR - node->oldPR;
+    double diff = node->newPR - node->oldPR;
     node->oldPR = node->newPR;
+    node->newPR = 0;
     return diff;
 }

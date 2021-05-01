@@ -58,16 +58,16 @@ int main(int argc, char* argv[]) {
         }
     }
     free(lineBuffer);
-    
-    for (int i = 0; i < count_files; i++) {
-        printNode(filesVector[i]);
-    }
     destroyHash(hashFiles);
-
-    destroyNodeVector(filesVector, count_files);
     
+    Graph* graph = initGraph(filesVector, count_files);
+    
+    updatePageRank(graph);
+    showAllPR(graph);
+
+    destroyGraph(graph);
     fclose(graphFile);
-    // showHash(hashFiles);
+
     // stopWordsFile = openFile(argv[1], "stopwords.txt");
     return 0;
 }
