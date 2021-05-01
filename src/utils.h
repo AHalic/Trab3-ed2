@@ -12,4 +12,6 @@ FILE* openFile(char* dir, char* file);
 
 Hash* readIndex(FILE* fp, Hash* hashTable);
 
+char* trimwhitespace(char *str);
+
 #endif

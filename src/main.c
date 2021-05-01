@@ -30,26 +30,43 @@ int main(int argc, char* argv[]) {
         access(hashFiles, lineBuffer);
         count_files++;
     }
+    fclose(indexFile);
 
-//    showHash(hashFiles);
     lineBuffer = NULL;
 
+    Node** filesVector = initNodeVector(count_files); 
+
     for (int i = 0; i < count_files; ++i) {
-        getdelim(&lineBuffer, &n, ' ', graphFile); // pega o nome do arquivo nó
-        printf("%s", lineBuffer);
-        Node* nodeFile = access(hashFiles, lineBuffer);
+        getline(&lineBuffer, &n, graphFile);
+        lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
 
-        getdelim(&lineBuffer, &n, ' ', graphFile); // pega a qtd de influencias
-        printf("%s", lineBuffer);
-        int numOfInfluenced = atoi(lineBuffer);
-        setNodeInfluenced(nodeFile, numOfInfluenced);
+        char delim[2] = " ";
+        char* token = strtok(lineBuffer, delim);
+        Node* nodeFile = access(hashFiles, token);
+        filesVector[i] = nodeFile;
 
-        for (int j = 0; j < numOfInfluenced; ++j) {
-            getdelim(&lineBuffer, &n, ' ', graphFile); // pega a qtd de influencias
-            printf("%s", lineBuffer);
+        token = strtok(NULL, delim);
+        int nInfluenced = atoi(token);
+        setNodeInfluenced(nodeFile, nInfluenced);
+
+        // Lê os nós que influenciam a página
+        for (int j = 0; j < nInfluenced && token != NULL; j++){
+            token = strtok(NULL, delim);
+            Node* influencer = access(hashFiles, token);
+            addConnection(influencer, nodeFile);
         }
     }
+    free(lineBuffer);
+    
+    destroyHash(hashFiles);
+    for (int i = 0; i < count_files; i++) {
+        printNode(filesVector[i]);
+    }
 
+    destroyNodeVector(filesVector, count_files);
+    
+    fclose(graphFile);
+    // showHash(hashFiles);
     // stopWordsFile = openFile(argv[1], "stopwords.txt");
     return 0;
 }

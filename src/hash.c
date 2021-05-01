@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <string.h>
 
-
 struct hash {
     Node** array;
     int sz;
@@ -26,10 +25,11 @@ Hash* initHash (int sz) {
 static int hashCode (char* s, int sz) {
     int total = 0;
     for(int i  = 0; s[i] != '\0'; i++) {
-        total += s[i];
+        total = (s[i] * (total + 1)) % sz;
+        // total += s[i];
     }
 
-    return (total % sz);
+    return total;
 }
 
 Node* access (Hash* h, char* string) {
@@ -38,16 +38,13 @@ Node* access (Hash* h, char* string) {
     char *aux_string = strdup(string);
 
     int index = hashCode(aux_string, h->sz);
-//    printf("index: %d\n", index);
 
     aux_list = searchNode(h->array[index], aux_string, &flag);
     if (flag)
         return aux_list;
 
-    // se nao encontrou, se p == NULL
-
+    // se nao encontrou, se flag == 0
     aux_node = initNode(index, aux_string);
-//    printf("node: %s i: %d\n", getFileName(aux_node), getNodeId(aux_node));
 
     if (h->array[index] == NULL) {
         h->array[index] = aux_node;
@@ -66,14 +63,25 @@ Node* find(Hash* h, char* string) {
 
 void showHash (Hash* h) {
     for (int i = 0; i < h->sz; i++) {
-        printf("index array[%d]:\n", i);
         if (h->array[i] != NULL) {
-            printf("Node: %s Index: %d\n", getFileName(h->array[i]), getNodeId(h->array[i]));
+            printNode(h->array[i]);
         }
     }
 }
 
 void destroyHash (Hash* h) {
-    destroyNodeVector(h->array, h->sz);
+    // destroyNodeVector(h->array, h->sz);
+    free(h->array);
     free(h);
+}
+
+
+void updatePageRank(Hash* vetor){
+    int tam = vetor->sz;
+    while (1){
+        for (int i = 0; i < tam; i++){
+            Node* aux = vetor->array[i];
+            calcPageRank(aux);
+        }
+    } 
 }

@@ -1,5 +1,6 @@
 #include "node.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 /**
@@ -40,9 +41,10 @@ Node* initNode(int id, char* fileName) {
     
     new->id = id;
     new->fileName = fileName;
-    new->connection = (Connection*) malloc (sizeof(Connection));
+    new->connection = NULL;
     new->influenced = new->influences = 0;
-    
+    new->PR_old = new->PR_new = 0;
+
     return new;
 }
 
@@ -54,9 +56,11 @@ Node** initNodeVector(int sz) {
 void addConnection(Node* origin, Node* connect) {
     if (origin == NULL || connect == NULL) return;
 
-    Connection* aux = origin->connection;
+    Connection* aux = (Connection*) malloc(sizeof(Connection));
+    aux->next = origin->connection;
     aux->node = connect;
-    aux->next = (Connection*) malloc (sizeof(Connection));
+    origin->connection = aux;
+    origin->influences++;
 } 
 
 void destroyConnections(Node* node) {
@@ -71,28 +75,44 @@ void destroyConnections(Node* node) {
         free(aux1);
         aux1 = aux2;
     }    
+    
+    // free(node->connection);
 }
 
 void destroyNode(Node* node) {
     if (node == NULL) return;
 
-    Node *aux1, *aux2;
-
-    aux1 = node;
-
-    while(aux1) {
-        aux2 = aux1->next;
-        free(aux1->fileName);
-        free(aux1);
-        aux1 = aux2;
-    }
+    free(node->fileName);
+    destroyConnections(node);
+    free(node);
 }
 
 void destroyNodeVector(Node** vector, int sz) {
-    for (int i = 0; i< sz; i++) {
-        destroyNode(vector[i]);
+    for (int i = 0; i< sz; i++) { // 5 files
+        destroyNode(vector[i]); // 1 + influencias + 1
     }
-    free(vector);
+    free(vector); // 1
+}
+
+void printConnection(Connection* connection) {
+    if (connection == NULL) return;
+
+    Connection *aux = connection;
+
+    printf("Connection: ");
+    while (aux != NULL) {
+        printf("%s, ", aux->node->fileName);
+        aux = aux->next;
+    }
+    
+}
+
+void printNode(Node* node) {
+    printf("[%d] %s: \n"
+        "\tPR old=%f PR new=%f\n"
+        "\tqtdInfluenciados=%d qtdInfluncias=%d\n", node->id, node->fileName, node->PR_old, node->PR_new, node->influenced, node->influences);
+    printConnection(node->connection);
+    printf("\n");
 }
 
 char* getFileName(Node* node) {
@@ -144,3 +164,5 @@ Node *searchNode(Node *node, char *string, int *flag) {
 
     return before;
 }
+
+/void calcPageRank(Node* node)
