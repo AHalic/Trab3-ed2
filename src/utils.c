@@ -34,6 +34,8 @@ FILE* openFile(char* dir, char* file){
     filePath = stringConcat(dir, file);
     fp = fopen(filePath, "r");
 
+    free(filePath);
+
     return fp;
 }
 

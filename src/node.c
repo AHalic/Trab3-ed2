@@ -74,7 +74,8 @@ void destroyConnections(Node* node) {
         aux2 = aux1->next;
         free(aux1);
         aux1 = aux2;
-    }    
+    }
+    node->connection = NULL;
     
     // free(node->connection);
 }
@@ -82,8 +83,8 @@ void destroyConnections(Node* node) {
 void destroyNode(Node* node) {
     if (node == NULL) return;
 
-    free(node->fileName);
     destroyConnections(node);
+    free(node->fileName);
     free(node);
 }
 

@@ -32,6 +32,7 @@ int main(int argc, char* argv[]) {
     }
     fclose(indexFile);
 
+    free(lineBuffer);
     lineBuffer = NULL;
 
     Node** filesVector = initNodeVector(count_files); 

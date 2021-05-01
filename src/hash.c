@@ -36,13 +36,14 @@ static int hashCode (char* s, int sz) {
 Node* access (Hash* h, char* string) {
     Node* aux_list, *aux_node;
     int flag = 0;
-    char *aux_string = strdup(string);
 
-    int index = hashCode(aux_string, h->sz);
+    int index = hashCode(string, h->sz);
 
-    aux_list = searchNode(h->array[index], aux_string, &flag);
-    if (flag)
+    aux_list = searchNode(h->array[index], string, &flag);
+    if (flag) {
         return aux_list;
+    }
+    char *aux_string = strdup(string);
 
     // se nao encontrou, se flag == 0
     aux_node = initNode(index, aux_string);
