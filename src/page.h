@@ -20,13 +20,6 @@ Pages* initPage (Node *nodeFile);
 char* getPageName (Pages* page);
 
 /* 
- * Atualiza n da struct word. Referente a ocorrencias daquela word
- * Input: Pages*
- * Output: void
- */ 
-void setIndex (Pages* pal, int index);
-
-/* 
  * Retorna o numero de ocorrencias daquela word
  * Input: Pages*
  * Output: int

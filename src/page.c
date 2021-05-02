@@ -22,12 +22,8 @@ char* getPageName (Pages* page) {
     return getFileName(page->nodeFile);
 }
 
-void setIndex (Pages* w, int index) {
-    // w->index = index;
-}
-
 int getIndex (Pages* w) {
-    // return w->index;
+    return getNodeId(w->nodeFile);
 }
 
 Pages* searchWord (Pages* pal, Node *nodeFile) {

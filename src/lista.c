@@ -58,7 +58,7 @@ void removePage (List* list, int id) {
 
     // Lista vazia ou nao encontrou o pages
     if (p == NULL) { 
-        return NULL;
+        return;
     }
 
     // Caso em que o aluno seja o unico da list

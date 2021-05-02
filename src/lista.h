@@ -1,6 +1,8 @@
 
 #ifndef _LISTA  
-#define _LISTA  
+#define _LISTA 
+
+#include "page.h"
 
 
 typedef struct list List;

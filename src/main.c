@@ -37,16 +37,17 @@ int main(int argc, char* argv[]) {
     while(!feof(stopWordsFile)) {
         getline(&lineBuffer, &n, stopWordsFile);
         lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
-// insert(Trie** head, char* str, char* file, int isStop)
         printf("[INSERE] %s\n", lineBuffer);
         insert(&arvore , lineBuffer, NULL, true);
     }
     free(lineBuffer);
 
-    while (!feof(stdin)) {
-        getline(&lineBuffer, &n, stdin);
+    // ler arquivos
 
-    }
+    // while (!feof(stdin)) {
+    //     getline(&lineBuffer, &n, stdin);
+
+    // }
 
     destroyGraph(graph);
     return 0;
