@@ -1,6 +1,8 @@
 #ifndef PAGE_H
 #define PAGE_H
 
+#include "node.h"
+
 typedef struct page Pages;
 
 /*
@@ -8,14 +10,14 @@ typedef struct page Pages;
  * Input: char*
  * Output: Pages*
  */ 
-Pages* initWord (char* str);
+Pages* initPage (Node *nodeFile);
 
 /* 
  * Retorna a string da word
  * Input: Pages*
  * Output: char*
  */ 
-char* getString (Pages* pal);
+char* getPageName (Pages* page);
 
 /* 
  * Atualiza n da struct word. Referente a ocorrencias daquela word
@@ -36,14 +38,14 @@ int getIndex (Pages* pal);
  * Input: Pages*, char*
  * Output: Pages*
  */ 
-Pages* searchWord (Pages* pal, char* string);
+Pages* searchWord (Pages* pal, Node *nodeFile);
 
 /*
  * Insere word *lista* a word *p* 
  * Input: Pages*, Pages*
  * Output: Pages*
  */ 
-Pages* insertWord (Pages* lista, Pages* p);
+Pages* insertPage (Pages* lista, Pages* p);
 
 /*
  * Conta a quantidade de palavras na lista

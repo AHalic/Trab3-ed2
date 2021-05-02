@@ -26,18 +26,18 @@ Trie* initTrieNode() {
 }
 
 // Iterative function to insert a string in Trie.
-void insert(Trie** head, char* str, char* file, int isStop) {
+void insert(Trie** head, char* str, Node *nodeFile, int isStop) {
 	// start from root node
 	Trie* curr = *head, *aux_trie;
 	char* c = str;
-	while (*c) {
+	while (*str) {
 		if((*str - '0')>=0 && (*str - '0')<=9){
 			// initTrieNode para digitos
 			if (curr->characters[(*str - '0') + 26] == NULL) {
 				curr->characters[(*str - '0') + 26] = initTrieNode();
 			}
             aux_trie = curr->characters[(*str - '0') + 26];
-		} else if ((*str - '0') >= 0 && (*str = '0')<26) {
+		} else if ((*str - 'a') >= 0 && (*str - 'z')<26) {
 			// initTrieNode para letras do alfabeto
 			if (curr->characters[*str - 'a'] == NULL) {
 				curr->characters[*str - 'a'] = initTrieNode();
@@ -60,15 +60,18 @@ void insert(Trie** head, char* str, char* file, int isStop) {
 	if(curr->isLeaf == 0) {
 		curr->isLeaf = 1;
 		curr->isStop = isStop;
-		Pages* p = initWord(file);
-        insertWord(curr->files, p);
+		if (nodeFile != NULL) {
+		    Pages* p = initPage(nodeFile);
+            insertPage(curr->files, p);
+		}
+
 
 	} else {
-		Pages* aux_word = searchWord(curr->files, file);
+		Pages* aux_word = searchWord(curr->files, nodeFile);
 		
 		if (!aux_word) {
-			Pages* p = initWord(file);
-			insertWord(curr->files, p);
+			Pages* p = initPage(nodeFile);
+            insertPage(curr->files, p);
 		} 
 	}
 }

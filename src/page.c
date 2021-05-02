@@ -1,4 +1,5 @@
 #include "page.h"
+#include "node.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -6,43 +7,41 @@
 #include <ctype.h>
 
 struct page {
-    char* string;
-    int index;
+    Node* nodeFile;
     Pages* next;
 };
 
-Pages* initWord (char* str) {
-    Pages* w = (Pages*) malloc (sizeof(Pages));
-    w->string = strdup(str);
-    w->index = -1;
-    w->next = NULL;
-    return w;
+Pages* initPage (Node *nodeFile) {
+    Pages* newPage = (Pages*) malloc (sizeof(Pages));
+    newPage->nodeFile = nodeFile;
+    newPage->next = NULL;
+    return newPage;
 }
 
-char* getString (Pages* w) {
-    return w->string;
+char* getPageName (Pages* page) {
+    return getFileName(page->nodeFile);
 }
 
 void setIndex (Pages* w, int index) {
-    w->index = index;
+    // w->index = index;
 }
 
 int getIndex (Pages* w) {
-    return w->index;
+    // return w->index;
 }
 
-Pages* searchWord (Pages* w, char* string) {
+Pages* searchWord (Pages* pal, Node *nodeFile) {
     Pages* aux;
     
-    for (aux = w; aux != NULL; aux = aux->next) {
-        if (strcmp (string, aux->string) == 0)
+    for (aux = pal; aux != NULL; aux = aux->next) {
+        if (strcmp (getFileName(nodeFile), getPageName(aux)) == 0)
             return aux;
     }
 
     return NULL;
 }
 
-Pages* insertWord (Pages* lista, Pages* p) {
+Pages* insertPage (Pages* lista, Pages* p) {
     p->next = lista;
     return p;
 }
@@ -59,11 +58,11 @@ int getQtyWords (Pages* p) {
 }
 
 void showWordList (Pages* w) {
-    Pages* aux;
-
-    for (aux = w; aux != NULL; aux = aux->next) {
-        printf("String: %s - Times: %d \n", aux->string, aux->index);
-    }
+//    Pages* aux;
+//
+//    for (aux = w; aux != NULL; aux = aux->next) {
+//        printf("String: %s - Times: %d \n", aux->string, aux->index);
+//    }
 }
 
 void destroyWordList (Pages* w) {
@@ -72,7 +71,7 @@ void destroyWordList (Pages* w) {
 
     while (aux1 != NULL) {
         aux2 = aux1->next;
-        free(aux1->string);
+        destroyNode(aux1->nodeFile);
         free(aux1);
         aux1 = aux2;
     }
