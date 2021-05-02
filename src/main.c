@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
 
     FILE* stopWordsFile;
     stopWordsFile = openFile(argv[1], "stopwords.txt");
-    char* lineBuffer;
+    char* lineBuffer = NULL;
     size_t n;
 
     while(!feof(stopWordsFile)) {
@@ -41,6 +41,7 @@ int main(int argc, char* argv[]) {
         printf("[INSERE] %s\n", lineBuffer);
         insert(&arvore , lineBuffer, NULL, true);
     }
+    free(lineBuffer);
 
     destroyGraph(graph);
     return 0;
