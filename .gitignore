@@ -9,3 +9,5 @@ trab3
 
 # Pastas ignoradas
 .vscode
+.DS_Store
+.DS_Store/*
