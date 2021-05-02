@@ -4,7 +4,7 @@
 #include "hash.h"
 #include "utils.h"
 #include "graph.h"
-
+#include "trie.h"
 #define HASH_SZ 127 // TO DO: pesquisar como escolher um tamanho de HASH
 
 int main(int argc, char* argv[]) {
@@ -23,6 +23,7 @@ int main(int argc, char* argv[]) {
     size_t n;
     int count_files = 0;
 
+    // Lendo index.txt e preenchendo a hash
     while(!feof(indexFile)) {
         getline(&lineBuffer, &n, indexFile);
         lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
@@ -67,6 +68,10 @@ int main(int argc, char* argv[]) {
 
     destroyGraph(graph);
     fclose(graphFile);
+
+    Trie *arvore = getNewTrieNode();
+
+    for (int i = 0; i < )
 
     // stopWordsFile = openFile(argv[1], "stopwords.txt");
     return 0;

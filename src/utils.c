@@ -39,21 +39,23 @@ FILE* openFile(char* dir, char* file){
     return fp;
 }
 
-Hash* readIndex(FILE* fp, Hash* hashTable) {
-    // char* lineBuffer = NULL;
-    // size_t n;
-    // int i = 0;
+Hash* readIndex(char* arq, Hash* hashTable) {
+    indexFile = openFile(argv[1], "index.txt");
 
-    // while(!feof(fp)) {
-    //     getline(&lineBuffer, &n, fp);
-    //     lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
+    char* lineBuffer = NULL;
+    size_t n;
+    int count_files = 0;
 
-    //     Word* auxWord = acess(hashTable, lineBuffer);
-    //     setIndex(auxWord, i++);
-    //     // showWordList(auxWord);
-    // }
+    // Lendo index.txt e preenchendo a hash
+    while(!feof(indexFile)) {
+        getline(&lineBuffer, &n, indexFile);
+        lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
 
-    // return hashTable;
+        access(hashFiles, lineBuffer);
+        count_files++;
+    }
+
+    
 }
 
 char *trimwhitespace(char *str) {

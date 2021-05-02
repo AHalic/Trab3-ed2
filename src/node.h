@@ -1,43 +1,45 @@
 #ifndef NODE_H
 #define NODE_H
 
-    typedef struct connection Connection;
+typedef struct connection Connection;
 
-    typedef struct node Node;
+typedef struct node Node;
 
-    Node* initNode(int id, char* fileName);
+Node* initNode(int id, char* fileName);
 
-    Node** initNodeVector(int sz);
+Node** initNodeVector(int sz);
 
-    void addConnection(Node* origin, Node* connect);
+void addConnection(Node* origin, Node* connect);
 
-    void destroyConnections(Node* node);
+void destroyConnections(Node* node);
 
-    void destroyNode(Node* node);
+void destroyNode(Node* node);
 
-    void destroyNodeVector(Node** vector, int sz);
+void destroyNodeVector(Node** vector, int sz);
 
-    void printNode(Node* node);
-    
-    char* getFileName(Node* node);
+void printNode(Node* node);
 
-    int getNodeId(Node* node);
+char* getFileName(Node* node);
 
-    double getPR_old(Node* node);
+char* getFileName(Node* node);
 
-    double getPR_new(Node* node);
+int getNodeId(Node* node);
 
-    int getNodeInfluenced(Node* node);
+double getPR_old(Node* node);
 
-    void setNodeInfluenced(Node* node, int value);
+double getPR_new(Node* node);
 
-    int getNodeInfluences(Node* node);
+int getNodeInfluenced(Node* node);
 
-    void setNodeInfluences(Node* node, int value);
+void setNodeInfluenced(Node* node, int value);
 
-    void insertNextNode(Node* origin, Node* next);
+int getNodeInfluences(Node* node);
 
-    Node *searchNode(Node *node, char *string, int *flag);
+void setNodeInfluences(Node* node, int value);
+
+void insertNextNode(Node* origin, Node* next);
+
+Node *searchNode(Node *node, char *string, int *flag);
 
     void calcPageRank(Node* node, int nNodes);
 
