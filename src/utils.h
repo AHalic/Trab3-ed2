@@ -10,7 +10,9 @@ void toLowerString(char *string);
 
 FILE* openFile(char* dir, char* file);
 
-Hash* readIndex(FILE* fp, Hash* hashTable);
+int readIndex(char* arq, Hash* hashFiles);
+
+void readGraph(char* arq, Hash* hashFiles, int count_files, Node** filesVector);
 
 char* trimwhitespace(char *str);
 
