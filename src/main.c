@@ -42,6 +42,11 @@ int main(int argc, char* argv[]) {
         insert(&arvore , lineBuffer, NULL, true);
     }
 
+    while (!feof(stdin)) {
+        getline(&lineBuffer, &n, stdin);
+
+    }
+
     destroyGraph(graph);
     return 0;
 }
