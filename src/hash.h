@@ -14,7 +14,7 @@ Hash* initHash (int sz);
 /*
  * Atualiza a tabela Hash
  * Input: Hash*, char*
- * Output: Word*
+ * Output: Pages*
  */ 
 Node* access (Hash* h, char* string);
 
