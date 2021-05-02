@@ -1,19 +1,19 @@
 #include "trie.h"
 #include <stdlib.h>
 #include <string.h>
-#include "word.h"
+#include "page.h"
 
 #define SZ 37 // 26 letras + 10 digitos + hifen
 
 struct trie {
     Trie* characters[37];
-    Word* files;
+    Pages* files;
     int isLeaf;   
     int isStop;
 };
 
 // Function that returns a new Trie node
-static Trie* getNewTrieNode() {
+Trie* initTrieNode() {
 	Trie* node = (Trie*)malloc(sizeof(Trie));
 	node->files = NULL;
 	node->isLeaf = 0;
@@ -32,22 +32,22 @@ void insert(Trie** head, char* str, char* file, int isStop) {
 	char* c = str;
 	while (*c) {
 		if((*str - '0')>=0 && (*str - '0')<=9){
-			// getNewTrieNode para digitos
+			// initTrieNode para digitos
 			if (curr->characters[(*str - '0') + 26] == NULL) {
-				curr->characters[(*str - '0') + 26] = getNewTrieNode();
+				curr->characters[(*str - '0') + 26] = initTrieNode();
 			}
             aux_trie = curr->characters[(*str - '0') + 26];
 		} else if ((*str - '0') >= 0 && (*str = '0')<26) {
-			// getNewTrieNode para letras do alfabeto
+			// initTrieNode para letras do alfabeto
 			if (curr->characters[*str - 'a'] == NULL) {
-				curr->characters[*str - 'a'] = getNewTrieNode();
+				curr->characters[*str - 'a'] = initTrieNode();
                 aux_trie = curr->characters[*str - 'a'];
 			}
             aux_trie = curr->characters[*str - 'a'];
 		} else {
-			// getNewTrieNode para hifen		
+			// initTrieNode para hifen		
 			if (curr->characters[36] == NULL) {
-				curr->characters[36] = getNewTrieNode();
+				curr->characters[36] = initTrieNode();
                 aux_trie = curr->characters[36];
 			}
             aux_trie = curr->characters[36];
@@ -60,14 +60,14 @@ void insert(Trie** head, char* str, char* file, int isStop) {
 	if(curr->isLeaf == 0) {
 		curr->isLeaf = 1;
 		curr->isStop = isStop;
-		Word* p = initWord(file);
+		Pages* p = initWord(file);
         insertWord(curr->files, p);
 
 	} else {
-		Word* aux_word = searchWord(curr->files, file);
+		Pages* aux_word = searchWord(curr->files, file);
 		
 		if (!aux_word) {
-			Word* p = initWord(file);
+			Pages* p = initWord(file);
 			insertWord(curr->files, p);
 		} 
 	}

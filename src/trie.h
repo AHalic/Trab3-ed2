@@ -3,6 +3,8 @@
 
 typedef struct trie Trie;
 
+Trie* initTrieNode();
+
 void insert(Trie* *head, char* str, char* file, int isStop);
 
 int search(Trie *head, const char *str);
