@@ -97,8 +97,10 @@ int readIndex(char* arq, Hash* hashFiles) {
 }
 
 void readGraph(char* file, Hash* hashFiles, Graph* graph) {
+    // abre arquivo de graph
     FILE* graphFile = openFile(file, "graph.txt");
 
+    // caso o arquivo nao existe
     if(!graphFile) {
         printf("Não foi encontrado o arquivo graph.txt\n");
         exit(1);   
@@ -110,6 +112,7 @@ void readGraph(char* file, Hash* hashFiles, Graph* graph) {
     size_t n;
     char* lineBuffer = NULL;
 
+    // le grafo e cria relacao entre nos
     for (int i = 0; i < nArray; ++i) {
         getline(&lineBuffer, &n, graphFile);
         lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
@@ -117,28 +120,32 @@ void readGraph(char* file, Hash* hashFiles, Graph* graph) {
         char delim[2] = " ";
         char* token = strtok(lineBuffer, delim);
         Node* nodeFile = access(hashFiles, token);
+
+        // vetor para guardar todas as paginas 
         filesVector[i] = nodeFile;
 
         token = strtok(NULL, delim);
         int nInfluenced = atoi(token);
         setNodeInfluenced(nodeFile, nInfluenced);
 
-        // Lê os nós que influenciam a página
+        // le os nos que influenciam a pagina
         for (int j = 0; j < nInfluenced && token != NULL; j++){
             token = strtok(NULL, delim);
             Node* influencer = access(hashFiles, token);
             addConnection(influencer, nodeFile);
         }
     }
+
     free(lineBuffer);
     destroyHash(hashFiles);
     fclose(graphFile);
 }
 
 void readStopWords (char* dir, Trie* trie) {
-    FILE* stopWordsFile;
-    stopWordsFile = openFile(dir, "stopwords.txt");
-
+    // abre arquivo de stopwords
+    FILE* stopWordsFile = openFile(dir, "stopwords.txt");
+    
+    // caso o arquivo nao existe
     if(!stopWordsFile) {
         printf("Não foi encontrado o arquivo stopwords.txt\n");
         exit(1);      
@@ -147,13 +154,15 @@ void readStopWords (char* dir, Trie* trie) {
     char* lineBuffer = NULL;
     size_t n;    
 
+    // ler stopwords e armazena palavras
     while(!feof(stopWordsFile)) {
         getline(&lineBuffer, &n, stopWordsFile);
         lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
-        insert(&trie , lineBuffer, NULL, true);
+        insert(&trie , lineBuffer, NULL, true); // true = eh stopword
     }
 
     free(lineBuffer);
+    fclose(stopWordsFile);
 }
 
 void readPages(char* dir, Graph* graph, Trie* trie) {
@@ -165,10 +174,14 @@ void readPages(char* dir, Graph* graph, Trie* trie) {
 
     // ler arquivos
     for (int i = 0; i < arraySize; i++) {
-        char* path = getFileName(filesVector[i]);                // pega nome do arquivo no vetor de nos
-        char* pagePath = stringConcat("pages/", path);           // concatena o nome do diretorio "pages/" + arq
+        // pega nome do arquivo no vetor de nos
+        char* path = getFileName(filesVector[i]);      
+
+        // concatena o nome do diretorio "pages/" + arq
+        char* pagePath = stringConcat("pages/", path);           
         
-        FILE* page = openFile(dir, pagePath);                    // abre arquivo do diretorio pages
+        // abre arquivo do diretorio pages
+        FILE* page = openFile(dir, pagePath);                    
 
         // caso a pagina nao existe
         if (!page) {
@@ -176,14 +189,15 @@ void readPages(char* dir, Graph* graph, Trie* trie) {
             exit(1);
         }
 
-        // ler paginas e armazena palavras
+        // le paginas e armazena palavras
         while(!feof(page)) {
             getline(&lineBuffer, &n, page);
             lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
             insert(&trie , lineBuffer, filesVector[i], false);  // false = nao eh stopword
         }
+        
+        fclose(page);
+        free(lineBuffer);
     }
-
-    free(lineBuffer);
 }
 
