@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "hash.h"
 #include "utils.h"
@@ -8,50 +9,42 @@
 #include "trie.h"
 
 #define HASH_SZ 127 // TO DO: pesquisar como escolher um tamanho de HASH
-#define true 1
-#define false 0
+
 
 int main(int argc, char* argv[]) {
     if (argc != 2)
         return 1;
 
-    Hash* hashFiles = initHash(HASH_SZ);
+    // caminho do diretorio dos arquivos
+    char* dir = argv[1];                              
+    
+    // hash para auxiliar com a busca dos arquivos e suas conexoes
+    Hash* hashFiles = initHash(HASH_SZ);              
 
-    int count_files = readIndex(argv[1], hashFiles);
-
-    Node** filesVector = initNodeVector(count_files); 
-
-    Graph* graph = initGraph(filesVector, count_files);
-    readGraph(argv[1], hashFiles, count_files, filesVector);    
-
+    // cria grafo e calcula page rank
+    int numFiles = readIndex(dir, hashFiles);
+    Node** filesVector = initNodeVector(numFiles); 
+    Graph* graph = initGraph(filesVector, numFiles);
+    readGraph(dir, hashFiles, graph);    
     updatePageRank(graph);
 
-    sortNodeVector(filesVector, count_files);
+    // ordena vetor de arquivos
+    sortNodeVector(filesVector, numFiles);   // nao seria legal isso ser parte de graph, ter uma funcao que chama?
 
-    showAllPR(graph);
+    // cria trie vazia
+    Trie* trie = initTrieNode();
 
-    Trie *arvore = initTrieNode();
+    // adiciona a trie todas as stopwords e as palavras das paginas do grafo
+    readStopWords(dir, trie);
+    readPages(dir, graph, trie);
 
-    FILE* stopWordsFile;
-    stopWordsFile = openFile(argv[1], "stopwords.txt");
-    char* lineBuffer = NULL;
-    size_t n;
-
-    while(!feof(stopWordsFile)) {
-        getline(&lineBuffer, &n, stopWordsFile);
-        lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
-        printf("[INSERE] %s\n", lineBuffer);
-        insert(&arvore , lineBuffer, NULL, true);
-    }
-    free(lineBuffer);
-
-    // ler arquivos
-
+    
     // while (!feof(stdin)) {
     //     getline(&lineBuffer, &n, stdin);
 
     // }
 
     destroyGraph(graph);
+
     return 0;
 }
