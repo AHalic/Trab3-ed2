@@ -3,17 +3,23 @@
 
 #include <stdio.h>
 #include "hash.h"
+#include "graph.h"
+#include "trie.h"
 
 char* stringConcat(char* dir, char* file);
 
 void toLowerString(char *string);
 
+char* trimwhitespace(char *str);
+
 FILE* openFile(char* dir, char* file);
 
 int readIndex(char* arq, Hash* hashFiles);
 
-void readGraph(char* arq, Hash* hashFiles, int count_files, Node** filesVector);
+void readGraph(char* file, Hash* hashFiles, Graph* graph);
 
-char* trimwhitespace(char *str);
+void readStopWords (char* dir, Trie* trie);
+
+void readPages(char* dir, Graph* graph, Trie* trie);
 
 #endif

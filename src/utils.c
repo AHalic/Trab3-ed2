@@ -1,11 +1,20 @@
 #include "utils.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdbool.h>
+
 #include "hash.h"
 #include "page.h"
 #include "node.h"
+#include "graph.h"
+#include "trie.h"
+
+
+
+/**************FUNCOES DE STRING**************/
 
 char* stringConcat(char* dir, char* file) {
     int dirLen = strlen(dir);
@@ -27,6 +36,27 @@ void toLowerString(char *string){
         string[i] = tolower(string[i]);
     }
 }
+
+char *trimwhitespace(char *str) {
+  char *end;
+
+  // Trim leading space
+  while(isspace((unsigned char)*str)) str++;
+
+  if(*str == 0)  // All spaces?
+    return str;
+
+  // Trim trailing space
+  end = str + strlen(str) - 1;
+  while(end > str && isspace((unsigned char)*end)) end--;
+
+  // Write new null terminator character
+  end[1] = '\0';
+
+  return str;
+}
+
+/**************FUNCOES DE LEITURA**************/
 
 FILE* openFile(char* dir, char* file){
     FILE* fp;
@@ -60,12 +90,21 @@ int readIndex(char* arq, Hash* hashFiles) {
     return count_files;
 }
 
-void readGraph(char* arq, Hash* hashFiles, int count_files, Node** filesVector) {
-    FILE* graphFile = openFile(arq, "graph.txt");
-    char* lineBuffer = NULL;
-    size_t n;
+void readGraph(char* file, Hash* hashFiles, Graph* graph) {
+    FILE* graphFile = openFile(file, "graph.txt");
 
-    for (int i = 0; i < count_files; ++i) {
+    if(!graphFile) {
+        printf("Não foi encontrado o arquivo graph.txt\n");
+        exit(1);   
+    }
+
+    int nArray = getNumNodes(graph);
+    Node** filesVector = getNodeArray(graph);
+    
+    size_t n;
+    char* lineBuffer = NULL;
+
+    for (int i = 0; i < nArray; ++i) {
         getline(&lineBuffer, &n, graphFile);
         lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
 
@@ -90,21 +129,55 @@ void readGraph(char* arq, Hash* hashFiles, int count_files, Node** filesVector) 
     fclose(graphFile);
 }
 
-char *trimwhitespace(char *str) {
-  char *end;
+void readStopWords (char* dir, Trie* trie) {
+    FILE* stopWordsFile;
+    stopWordsFile = openFile(dir, "stopwords.txt");
 
-  // Trim leading space
-  while(isspace((unsigned char)*str)) str++;
+    if(!stopWordsFile) {
+        printf("Não foi encontrado o arquivo stopwords.txt\n");
+        exit(1);      
+    }
 
-  if(*str == 0)  // All spaces?
-    return str;
+    char* lineBuffer = NULL;
+    size_t n;    
 
-  // Trim trailing space
-  end = str + strlen(str) - 1;
-  while(end > str && isspace((unsigned char)*end)) end--;
+    while(!feof(stopWordsFile)) {
+        getline(&lineBuffer, &n, stopWordsFile);
+        lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
+        insert(&trie , lineBuffer, NULL, true);
+    }
 
-  // Write new null terminator character
-  end[1] = '\0';
-
-  return str;
+    free(lineBuffer);
 }
+
+void readPages(char* dir, Graph* graph, Trie* trie) {
+    Node** filesVector = getNodeArray(graph);
+    int arraySize = getNumNodes(graph);
+
+    size_t n;
+    char* lineBuffer = NULL;
+
+    // ler arquivos
+    for (int i = 0; i < arraySize; i++) {
+        char* path = getFileName(filesVector[i]);                // pega nome do arquivo no vetor de nos
+        char* pagePath = stringConcat("pages/", path);           // concatena o nome do diretorio "pages/" + arq
+        
+        FILE* page = openFile(dir, pagePath);                    // abre arquivo do diretorio pages
+
+        // caso a pagina nao existe
+        if (!page) {
+            printf("Não foi encontrado o arquivo %s\n", path);
+            exit(1);
+        }
+
+        // ler paginas e armazena palavras
+        while(!feof(page)) {
+            getline(&lineBuffer, &n, page);
+            lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
+            insert(&trie , lineBuffer, filesVector[i], false);  // false = nao eh stopword
+        }
+    }
+
+    free(lineBuffer);
+}
+
