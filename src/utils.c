@@ -72,9 +72,15 @@ FILE* openFile(char* dir, char* file){
 
 int readIndex(char* arq, Hash* hashFiles) {
     FILE* indexFile = openFile(arq, "index.txt");
+    
+    if(!indexFile) {
+        printf("Não foi encontrado o arquivo index.txt\n");
+        exit(1);         
+    }
+
     char* lineBuffer = NULL;
     size_t n;
-    int count_files = 0;
+    int nFiles = 0;
 
     // Lendo index.txt e preenchendo a hash
     while(!feof(indexFile)) {
@@ -82,12 +88,12 @@ int readIndex(char* arq, Hash* hashFiles) {
         lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
 
         access(hashFiles, lineBuffer);
-        count_files++;
+        nFiles++;
     }
     fclose(indexFile);
     free(lineBuffer);
     
-    return count_files;
+    return nFiles;
 }
 
 void readGraph(char* file, Hash* hashFiles, Graph* graph) {
