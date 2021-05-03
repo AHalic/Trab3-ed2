@@ -144,7 +144,7 @@ void readGraph(char* file, Hash* hashFiles, Graph* graph) {
 void readStopWords (char* dir, Trie* trie) {
     // abre arquivo de stopwords
     FILE* stopWordsFile = openFile(dir, "stopwords.txt");
-    
+
     // caso o arquivo nao existe
     if(!stopWordsFile) {
         printf("Não foi encontrado o arquivo stopwords.txt\n");
@@ -197,7 +197,7 @@ void readPages(char* dir, Graph* graph, Trie* trie) {
         }
         
         fclose(page);
-        free(lineBuffer);
     }
+    free(lineBuffer);
 }
 
