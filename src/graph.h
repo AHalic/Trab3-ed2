@@ -6,7 +6,11 @@
 typedef struct graph Graph;
 
 
-Graph *initGraph(Node** vector, int count_files);
+Graph *initGraph(Node** vector, int nNodes);
+
+Node** getNodeArray(Graph* graph);
+
+int getNumNodes(Graph* graph);
 
 void updatePageRank(Graph* graph);
 
