@@ -13,14 +13,22 @@ struct graph {
     int nNodes;
 };
 
-Graph *initGraph(Node **vector, int count_files){
+Graph *initGraph(Node **vector, int nNode) {
     Graph *new = (Graph *)malloc(sizeof(Graph));
     new->nodeArray = vector;
-    new->nNodes = count_files;
+    new->nNodes = nNode;
     return new;
 }
 
-void updatePageRank(Graph *graph){
+Node** getNodeArray(Graph* graph) {
+    return graph->nodeArray;
+}
+
+int getNumNodes(Graph* graph) {
+    return graph->nNodes;
+}
+
+void updatePageRank(Graph *graph) {
     int tam = graph->nNodes;
 	
     while (1) {
