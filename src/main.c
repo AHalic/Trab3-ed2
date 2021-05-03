@@ -25,6 +25,9 @@ int main(int argc, char* argv[]) {
     readGraph(argv[1], hashFiles, count_files, filesVector);    
 
     updatePageRank(graph);
+
+    sortNodeVector(filesVector, count_files);
+
     showAllPR(graph);
 
     Trie *arvore = initTrieNode();

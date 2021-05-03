@@ -41,9 +41,11 @@ void insertNextNode(Node* origin, Node* next);
 
 Node *searchNode(Node *node, char *string, int *flag);
 
-    void calcPageRank(Node* node, int nNodes);
+void calcPageRank(Node* node, int nNodes);
 
-    double changePRs(Node* node);
+double changePRs(Node* node);
+
+void sortNodeVector(Node** nodeVet, int size);
 
 
 #endif

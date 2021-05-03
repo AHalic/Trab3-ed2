@@ -195,3 +195,13 @@ double changePRs(Node* node){
     node->newPR = 0;
     return diff;
 }
+
+static int compareNodes(const void* n1, const void* n2) {
+    const Node* pri = *(const Node**) n1;
+    const Node* seg = *(const Node**) n2;
+    return (pri->oldPR < seg->oldPR) - (pri->oldPR > seg->oldPR);
+}
+
+void sortNodeVector(Node** nodeVet, int size){
+    qsort(nodeVet, size, sizeof(Node*), compareNodes);
+}
