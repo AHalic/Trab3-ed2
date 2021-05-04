@@ -73,15 +73,18 @@ int readIndex(char* arq, Hash* hashFiles) {
     char* lineBuffer = NULL;
     size_t n;
     int nFiles = 0;
+    int linhas = 0;
 
     // Lendo index.txt e preenchendo a hash
     while(!feof(indexFile)) {
-        getline(&lineBuffer, &n, indexFile);
-        lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
-
-        accessHash(hashFiles, lineBuffer);
-        nFiles++;
+        linhas = getline(&lineBuffer, &n, indexFile);
+        trimWhitespace(lineBuffer);
+        if(linhas > 1) {
+            accessHash(hashFiles, lineBuffer);
+            nFiles++;
+        }
     }
+
     fclose(indexFile);
     free(lineBuffer);
     
@@ -110,7 +113,7 @@ void readGraph(char* file, Hash* hashFiles, Graph* graph) {
         lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
 
         char delim[2] = " ";
-        char* token = strtok(lineBuffer, delim);
+        char* token = strtok(lineBuffer, " ");
         Node* nodeFile = accessHash(hashFiles, token);
 
         // vetor para guardar todas as paginas 
