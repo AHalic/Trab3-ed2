@@ -18,6 +18,10 @@ Pages* initPage (Node *nodeFile) {
     return newPage;
 }
 
+Node* getPageNode (Pages* page){
+    return page->nodeFile;
+}
+
 char* getPageName (Pages* page) {
     return getFileName(page->nodeFile);
 }
@@ -26,7 +30,7 @@ int getIndex (Pages* w) {
     return getNodeId(w->nodeFile);
 }
 
-Pages* searchWord (Pages* pal, Node *nodeFile) {
+Pages* searchPage (Pages* pal, Node *nodeFile) {
     Pages* aux;
     
     for (aux = pal; aux != NULL; aux = aux->next) {
@@ -42,7 +46,7 @@ Pages* insertPage (Pages* lista, Pages* p) {
     return p;
 }
 
-int getQtyWords (Pages* p) {
+int getQtyPages (Pages* p) {
     Pages* aux;
     int qty = 0;
 
@@ -53,15 +57,17 @@ int getQtyWords (Pages* p) {
     return qty;
 }
 
-void showWordList (Pages* w) {
-//    Pages* aux;
-//
-//    for (aux = w; aux != NULL; aux = aux->next) {
-//        printf("String: %s - Times: %d \n", aux->string, aux->index);
-//    }
+void showPageList (Pages* w) {
+    if(w == NULL){
+        return;
+    }
+    Pages* aux;
+    for (aux = w; aux != NULL; aux = aux->next) {
+        printf("String: %s\n", getPageName(aux));
+    }
 }
 
-void destroyWordList (Pages* w) {
+void destroyPageList (Pages* w) {
     Pages* aux1 = w;
     Pages* aux2;
 

@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "page.h"
 #include "hash.h"
 #include "utils.h"
 
@@ -47,7 +48,9 @@ int main(int argc, char *argv[]) {
 //        printf("consulta: ");
         while (token) {
             printf("%s\n", token);
-            if(!search(trie, token)) printf("achou\n");
+            Pages* aux = search(trie, token);
+            showPageList(aux);
+            if(aux) printf("achou algo\n");
             token = strtok(NULL, " ");
         }
         printf("\n");

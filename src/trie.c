@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "page.h"
+
 #include "utils.h"
 
 #define SZ 37 // 26 letras + 10 digitos + hifen
@@ -67,24 +67,24 @@ void insert(Trie** head, char* str, Node *nodeFile, int isStop) {
 		curr->isStop = isStop;
 		if (nodeFile != NULL) {
 		    Pages* p = initPage(nodeFile);
-            insertPage(curr->files, p);
+            curr->files = insertPage(curr->files, p);
 		}
 	}
 	else {
-		Pages* aux_word = searchWord(curr->files, nodeFile);
+		Pages* aux_pages = searchPage(curr->files, nodeFile);
 
-		if (!aux_word) {
+		if (!aux_pages) {
 			Pages* p = initPage(nodeFile);
             insertPage(curr->files, p);
+            curr->files = insertPage(curr->files, p);
 		}
 	}
 }
 
-int search(Trie *head, const char *str) {
+Pages* search(Trie *head, const char *str) {
 	if (head == NULL) return 0;
     char *normalizedStr = strdup(str);
     toLowerString(normalizedStr);
-
 	int i = 0;
 
 	Trie* curr = head;
@@ -101,14 +101,12 @@ int search(Trie *head, const char *str) {
 		}
 
 		if (curr == NULL) {
-			return 0;
+			return NULL;
 		}
-
 		i++;
 	}
     free(normalizedStr);
-
-	return curr->isLeaf;
+	return curr->files;
 }
 
 int haveChildren(Trie* curr) {
@@ -164,7 +162,7 @@ void free_all(Trie* curs) {
 			free_all(curs->characters[i]);
 		}
 		if(curs->isLeaf == 1){
-			destroyWordList(curs->files);
+			destroyPageList(curs->files);
 			free(curs->files);
 			curs->isLeaf = 0;
 		}

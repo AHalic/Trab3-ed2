@@ -12,6 +12,14 @@ typedef struct page Pages;
  */ 
 Pages* initPage (Node *nodeFile);
 
+/**
+ * Retorna o node da pagina
+ * Input: Pages* 
+ * Output: Node*
+*/
+Node* getPageNode (Pages* page);
+
+
 /* 
  * Retorna a string da word
  * Input: Pages*
@@ -31,7 +39,7 @@ int getIndex (Pages* pal);
  * Input: Pages*, char*
  * Output: Pages*
  */ 
-Pages* searchWord (Pages* pal, Node *nodeFile);
+Pages* searchPage (Pages* pal, Node *nodeFile);
 
 /*
  * Insere word *lista* a word *p* 
@@ -45,20 +53,20 @@ Pages* insertPage (Pages* lista, Pages* p);
  * Input: Pages*
  * Output: int
  */ 
-int getQtyWords (Pages* p);
+int getQtyPages (Pages* p);
 
 /*
  * Imprime lista de palavras
  * Input: Pages*
  * Output: void
  */ 
-void showWordList (Pages* pal);
+void showPageList (Pages* pal);
 
 /*
  * Libera memoria alocada pela lista de palavras
  * Input: Pages*
  * Output: void
  */ 
-void destroyWordList (Pages* pal);
+void destroyPageList (Pages* pal);
 
 #endif

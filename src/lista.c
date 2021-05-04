@@ -91,8 +91,10 @@ void showList (List* list) {
 
     while (aux != NULL) {
         // Imprimir 
+        printf("%s ", getPageName(aux->pages));
         aux = aux->next;
     }
+    printf("\n");
     
 }
 

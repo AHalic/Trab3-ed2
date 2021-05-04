@@ -187,7 +187,13 @@ void readPages(char* dir, Graph* graph, Trie* trie) {
         while(!feof(page)) {
             getline(&lineBuffer, &n, page);
             lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
-            insert(&trie , lineBuffer, filesVector[i], false);  // false = nao eh stopword
+            char* token = strtok(lineBuffer, " ");
+
+        //        printf("consulta: ");
+            while (token) {
+                insert(&trie , token, filesVector[i], false);  // false = nao eh stopword
+                token = strtok(NULL, " ");
+            }
         }
         
         free(pagePath);
