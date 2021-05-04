@@ -22,6 +22,7 @@ DIR_ENT0  := ./input/input0/
 DIR_ENT1  := ./ConjuntodeTeste1/teste100_1/
 DIR_ENT2  := ./ConjuntodeTeste2/teste100_2/
 DIR_ENT3  := ./ConjuntodeTeste1/teste30_1/
+DIR_ENT4  := ./ConjuntodeTeste2/teste10_2/
  
 CINCLUDES	:= $(patsubst %,-I%, $(INCLUDEDIRS:%/=%))
 SOURCES		:= $(wildcard $(patsubst %,%/*.c, $(SOURCEDIRS)))
@@ -46,6 +47,8 @@ run2:
 	./$(EXECUTABLE) $(DIR_ENT2)
 run3:
 	./$(EXECUTABLE) $(DIR_ENT3)
+run4:
+	./$(EXECUTABLE) $(DIR_ENT4)
 	
 $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(CFLAGS) $(CINCLUDES) $^ -o $@ $(LIBRARIES) -lm
@@ -63,3 +66,5 @@ val2:
 	valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT2)
 val3:
 	valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT3)
+val4:
+	valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT4)

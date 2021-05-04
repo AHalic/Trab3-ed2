@@ -78,6 +78,8 @@ int readIndex(char* arq, Hash* hashFiles) {
     while(!feof(indexFile)) {
         getline(&lineBuffer, &n, indexFile);
         lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
+        if(!strcmp(lineBuffer, ""))break;
+        printf("%s %d\n", lineBuffer, nFiles);
 
         accessHash(hashFiles, lineBuffer);
         nFiles++;
