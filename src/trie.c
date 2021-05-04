@@ -1,14 +1,16 @@
 #include "trie.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "page.h"
+#include "utils.h"
 
 #define SZ 37 // 26 letras + 10 digitos + hifen
 
 struct trie {
     Trie* characters[37];
     Pages* files;
-    int isLeaf;   
+    int isLeaf;
     int isStop;
 };
 
@@ -28,6 +30,7 @@ Trie* initTrieNode() {
 // Iterative function to insert a string in Trie.
 void insert(Trie** head, char* str, Node *nodeFile, int isStop) {
 	// start from root node
+    toLowerString(str);
 	Trie* curr = *head, *aux_trie;
 	char* c = str;
 	while (*str) {
@@ -37,15 +40,17 @@ void insert(Trie** head, char* str, Node *nodeFile, int isStop) {
 				curr->characters[(*str - '0') + 26] = initTrieNode();
 			}
             aux_trie = curr->characters[(*str - '0') + 26];
-		} else if ((*str - 'a') >= 0 && (*str - 'z')<26) {
+		}
+		else if ((*str - 'a') >= 0 && (*str - 'a')<26) {
 			// initTrieNode para letras do alfabeto
 			if (curr->characters[*str - 'a'] == NULL) {
 				curr->characters[*str - 'a'] = initTrieNode();
                 aux_trie = curr->characters[*str - 'a'];
 			}
             aux_trie = curr->characters[*str - 'a'];
-		} else {
-			// initTrieNode para hifen		
+		}
+		else {
+			// initTrieNode para hifen
 			if (curr->characters[36] == NULL) {
 				curr->characters[36] = initTrieNode();
                 aux_trie = curr->characters[36];
@@ -64,40 +69,44 @@ void insert(Trie** head, char* str, Node *nodeFile, int isStop) {
 		    Pages* p = initPage(nodeFile);
             insertPage(curr->files, p);
 		}
-
-
-	} else {
+	}
+	else {
 		Pages* aux_word = searchWord(curr->files, nodeFile);
-		
+
 		if (!aux_word) {
 			Pages* p = initPage(nodeFile);
             insertPage(curr->files, p);
-		} 
+		}
 	}
 }
 
 int search(Trie *head, const char *str) {
 	if (head == NULL) return 0;
-	
+    char *normalizedStr = strdup(str);
+    toLowerString(normalizedStr);
+
 	int i = 0;
 
 	Trie* curr = head;
-	// char* aux = (char*) malloc(sizeof(char) * (strlen(str)+1));
-	// strcpy(aux, str);
-	
 
-	while (str[i]) {
-		if((str[i] - '0') >= 0 && (str[i] - '0') <= 9){
-			curr = curr->characters[(str[i] - '0') + 26];
-		}else{
-			curr = curr->characters[str[i] - 'a'];
+	while (normalizedStr[i]) {
+	    if ((normalizedStr[i] - 'a') >= 0 && (normalizedStr[i] - 'a') < 26) {
+            curr = curr->characters[normalizedStr[i] - 'a'];
+        }
+	    else if ((normalizedStr[i] - '0') >= 0 && (normalizedStr[i] - '0') <= 9) {
+            curr = curr->characters[(normalizedStr[i] - '0') + 26];
+        }
+	    else {
+	        curr = curr->characters[36];
 		}
-		
+
 		if (curr == NULL) {
 			return 0;
 		}
+
 		i++;
 	}
+    free(normalizedStr);
 
 	return curr->isLeaf;
 }
@@ -135,7 +144,7 @@ int deletion(Trie* *curr, char* str) {
 		{
 			free(*curr);
 			(*curr) = NULL;
-			return 1; 
+			return 1;
 		}
 		else
 		{

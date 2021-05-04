@@ -10,7 +10,7 @@ char* stringConcat(char* dir, char* file);
 
 void toLowerString(char *string);
 
-char* trimwhitespace(char *str);
+char* trimWhitespace(char *str);
 
 FILE* openFile(char* dir, char* file);
 

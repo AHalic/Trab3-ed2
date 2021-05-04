@@ -6,12 +6,6 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-#include "hash.h"
-#include "page.h"
-#include "node.h"
-#include "graph.h"
-#include "trie.h"
-
 
 
 /**************FUNCOES DE STRING**************/
@@ -33,11 +27,11 @@ char* stringConcat(char* dir, char* file) {
 
 void toLowerString(char *string){
     for (int i = 0; i < strlen(string); i++){
-        string[i] = tolower(string[i]);
+        string[i] = (char) tolower(string[i]);
     }
 }
 
-char *trimwhitespace(char *str) {
+char *trimWhitespace(char *str) {
   char *end;
 
   // Trim leading space
@@ -181,7 +175,7 @@ void readPages(char* dir, Graph* graph, Trie* trie) {
         char* pagePath = stringConcat("pages/", path);           
         
         // abre arquivo do diretorio pages
-        FILE* page = openFile(dir, pagePath);                    
+        FILE* page = openFile(dir, pagePath);
 
         // caso a pagina nao existe
         if (!page) {
@@ -196,6 +190,7 @@ void readPages(char* dir, Graph* graph, Trie* trie) {
             insert(&trie , lineBuffer, filesVector[i], false);  // false = nao eh stopword
         }
         
+        free(pagePath);
         fclose(page);
     }
     free(lineBuffer);
