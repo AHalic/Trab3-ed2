@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 #include "utils.h"
 
@@ -10,16 +11,16 @@
 struct trie {
     Trie* characters[37];
     Pages* files;
-    int isLeaf;
-    int isStop;
+    bool isLeaf;
+    bool isStop;
 };
 
 // Function that returns a new Trie node
 Trie* initTrieNode() {
 	Trie* node = (Trie*)malloc(sizeof(Trie));
 	node->files = NULL;
-	node->isLeaf = 0;
-	node->isStop = 0;
+	node->isLeaf = false;
+	node->isStop = false;
 
 	for (int i = 0; i < SZ; i++)
 		node->characters[i] = NULL;
@@ -32,7 +33,6 @@ void insert(Trie** head, char* str, Node *nodeFile, int isStop) {
 	// start from root node
     toLowerString(str);
 	Trie* curr = *head, *aux_trie;
-	char* c = str;
 	while (*str) {
 		if((*str - '0')>=0 && (*str - '0')<=9){
 			// initTrieNode para digitos
@@ -49,28 +49,36 @@ void insert(Trie** head, char* str, Node *nodeFile, int isStop) {
 			}
             aux_trie = curr->characters[*str - 'a'];
 		}
-		else {
+		else if (*str == '-'){
 			// initTrieNode para hifen
 			if (curr->characters[36] == NULL) {
 				curr->characters[36] = initTrieNode();
                 aux_trie = curr->characters[36];
 			}
             aux_trie = curr->characters[36];
-		}
+		} 
+
 		curr = aux_trie;
 		str++;
 	}
 
 	//cria e coloca as coisas da estrutura no nó
-	if(curr->isLeaf == 0) {
-		curr->isLeaf = 1;
+	if(curr->isLeaf == false) {
+		// insere em um no vazio
+		curr->isLeaf = true;
 		curr->isStop = isStop;
 		if (nodeFile != NULL) {
 		    Pages* p = initPage(nodeFile);
+            insertPage(curr->files, p);
             curr->files = insertPage(curr->files, p);
 		}
 	}
 	else {
+		// insere arquivo em no ja existente
+
+		// se for uma stopword, sai da funcao
+		if(curr->isStop) return;  
+
 		Pages* aux_pages = searchPage(curr->files, nodeFile);
 
 		if (!aux_pages) {
@@ -82,7 +90,7 @@ void insert(Trie** head, char* str, Node *nodeFile, int isStop) {
 }
 
 Pages* search(Trie *head, const char *str) {
-	if (head == NULL) return 0;
+	if (head == NULL) return NULL;
     char *normalizedStr = strdup(str);
     toLowerString(normalizedStr);
 	int i = 0;
@@ -101,11 +109,18 @@ Pages* search(Trie *head, const char *str) {
 		}
 
 		if (curr == NULL) {
+			free(normalizedStr);
 			return NULL;
 		}
 		i++;
 	}
-    free(normalizedStr);
+    
+	free(normalizedStr);
+
+	if (curr->isStop){
+		return NULL;
+	}
+	
 	return curr->files;
 }
 
@@ -117,16 +132,14 @@ int haveChildren(Trie* curr) {
 	return 0;
 }
 
-// Acho q n precisamos
+/*
 int deletion(Trie* *curr, char* str) {
 	if (*curr == NULL) return 0;
 	if (*str) {
 		if (*curr != NULL && (*curr)->characters[*str - 'a'] != NULL &&
 			deletion(&((*curr)->characters[*str - 'a']), str + 1) &&
-			(*curr)->isLeaf == 0)
-		{
-			if (!haveChildren(*curr))
-			{
+			(*curr)->isLeaf == 0) {
+			if (!haveChildren(*curr)) 	{
 				free(*curr);
 				(*curr) = NULL;
 				return 1;
@@ -136,16 +149,13 @@ int deletion(Trie* *curr, char* str) {
 			}
 		}
 	}
-	if (*str == '\0' && (*curr)->isLeaf)
-	{
-		if (!haveChildren(*curr))
-		{
+	if (*str == '\0' && (*curr)->isLeaf) {
+		if (!haveChildren(*curr)) {
 			free(*curr);
 			(*curr) = NULL;
 			return 1;
 		}
-		else
-		{
+		else {
 			(*curr)->isLeaf = 0;
 			return 0;
 		}
@@ -153,17 +163,17 @@ int deletion(Trie* *curr, char* str) {
 
 	return 0;
 }
+*/
 
-void free_all(Trie* curs) {
+void destroyTrie(Trie* curs) {
     int i;
     if(!curs) return;
     for (i = 0; i < SZ; i++){
 		if(curs->characters[i] != NULL){
-			free_all(curs->characters[i]);
+			destroyTrie(curs->characters[i]);
 		}
 		if(curs->isLeaf == 1){
 			destroyPageList(curs->files);
-			free(curs->files);
 			curs->isLeaf = 0;
 		}
 	}

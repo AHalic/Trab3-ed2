@@ -16,7 +16,7 @@ Hash* initHash (int sz);
  * Input: Hash*, char*
  * Output: Pages*
  */ 
-Node* access (Hash* h, char* string);
+Node* accessHash (Hash* h, char* string);
 
 Node* find(Hash* h, char* string);
 

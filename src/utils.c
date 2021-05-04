@@ -6,8 +6,6 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-
-
 /**************FUNCOES DE STRING**************/
 
 char* stringConcat(char* dir, char* file) {
@@ -81,7 +79,7 @@ int readIndex(char* arq, Hash* hashFiles) {
         getline(&lineBuffer, &n, indexFile);
         lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
 
-        access(hashFiles, lineBuffer);
+        accessHash(hashFiles, lineBuffer);
         nFiles++;
     }
     fclose(indexFile);
@@ -113,19 +111,20 @@ void readGraph(char* file, Hash* hashFiles, Graph* graph) {
 
         char delim[2] = " ";
         char* token = strtok(lineBuffer, delim);
-        Node* nodeFile = access(hashFiles, token);
+        Node* nodeFile = accessHash(hashFiles, token);
 
         // vetor para guardar todas as paginas 
         filesVector[i] = nodeFile;
 
         token = strtok(NULL, delim);
-        int nInfluenced = atoi(token);
+        int nInfluenced = (int) strtol(token, (char **)NULL, 10);
+        // atoi(token);
         setNodeInfluenced(nodeFile, nInfluenced);
 
         // le os nos que influenciam a pagina
         for (int j = 0; j < nInfluenced && token != NULL; j++){
             token = strtok(NULL, delim);
-            Node* influencer = access(hashFiles, token);
+            Node* influencer = accessHash(hashFiles, token);
             addConnection(influencer, nodeFile);
         }
     }

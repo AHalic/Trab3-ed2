@@ -45,7 +45,6 @@ int main(int argc, char *argv[]) {
         trimWhitespace(lineBuffer);
         char* token = strtok(lineBuffer, " ");
 
-//        printf("consulta: ");
         while (token) {
             printf("%s\n", token);
             Pages* aux = search(trie, token);
@@ -56,7 +55,9 @@ int main(int argc, char *argv[]) {
         printf("\n");
     }
 
-    destroyGraph(graph);
+    free(lineBuffer);
 
+    destroyGraph(graph);
+    destroyTrie(trie);
     return 0;
 }

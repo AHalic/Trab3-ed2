@@ -13,6 +13,6 @@ Pages* search(Trie *head, const char *str);
 
 int haveChildren(Trie* curr);
 
-void free_all(Trie* curs);
+void destroyTrie(Trie* curs);
 
 #endif

@@ -73,7 +73,7 @@ void destroyPageList (Pages* w) {
 
     while (aux1 != NULL) {
         aux2 = aux1->next;
-        destroyNode(aux1->nodeFile);
+        // destroyNode(aux1->nodeFile);
         free(aux1);
         aux1 = aux2;
     }

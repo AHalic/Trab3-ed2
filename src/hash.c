@@ -33,16 +33,27 @@ static int hashCode (char* s, int sz) {
     return total;
 }
 
-Node* access (Hash* h, char* string) {
+Node* accessHash (Hash* h, char* string) {
     Node* aux_list, *aux_node;
     int flag = 0;
 
     int index = hashCode(string, h->sz);
 
+    if (h->array == NULL
+        && index >= h->sz
+        && h->array[index] == NULL
+        && string == NULL
+        && index <= 0) {
+            printf("erro em %s\n", string);
+            return NULL;
+    }
+
     aux_list = searchNode(h->array[index], string, &flag);
+    
     if (flag) {
         return aux_list;
     }
+
     char *aux_string = strdup(string);
 
     // se nao encontrou, se flag == 0
@@ -50,7 +61,8 @@ Node* access (Hash* h, char* string) {
 
     if (h->array[index] == NULL) {
         h->array[index] = aux_node;
-    } else  {
+    } 
+    else {
         insertNextNode(aux_list, aux_node);
     }
 

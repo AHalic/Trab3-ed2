@@ -19,6 +19,9 @@ INCLUDEDIRS	:= $(shell find $(INCLUDE) -type d)
 
 # Caso teste do pdf
 DIR_ENT0  := ./input/input0/
+DIR_ENT1  := ./ConjuntodeTeste1/teste100_1/
+DIR_ENT2  := ./ConjuntodeTeste2/teste100_2/
+DIR_ENT3  := ./ConjuntodeTeste1/teste30_1/
  
 CINCLUDES	:= $(patsubst %,-I%, $(INCLUDEDIRS:%/=%))
 SOURCES		:= $(wildcard $(patsubst %,%/*.c, $(SOURCEDIRS)))
@@ -37,6 +40,12 @@ run:
 
 run0: 
 	./$(EXECUTABLE) $(DIR_ENT0) 
+run1:
+	./$(EXECUTABLE) $(DIR_ENT1)
+run2:
+	./$(EXECUTABLE) $(DIR_ENT2)
+run3:
+	./$(EXECUTABLE) $(DIR_ENT3)
 	
 $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(CFLAGS) $(CINCLUDES) $^ -o $@ $(LIBRARIES) -lm
@@ -47,4 +56,10 @@ val:
 	echo "val0"
 
 val0: 
-	valgrind ./$(EXECUTABLE) $(DIR_ENT0)
+	valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT0)
+val1:
+	valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT1)
+val2:
+	valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT2)
+val3:
+	valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT3)
