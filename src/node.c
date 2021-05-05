@@ -154,12 +154,14 @@ void insertNextNode(Node* origin, Node* next) {
 Node *searchNode(Node *node, char *string, int *flag) {
     Node* aux, *before = NULL;
     int f = 1;
-    // printf("%s\n", string);
+    // printf("%s\n", node->fileName);
     for (aux = node; aux != NULL; aux = aux->next) {
-        if (aux->fileName == NULL)
-            continue;
+        if (aux == NULL){
+            printf("nó nulo??\n");
+            break;
+        }
 
-        if (strcmp (string, aux->fileName) == 0) {
+        if ( aux->fileName != NULL && strcmp (string, aux->fileName) == 0) {
             flag = &f;
             return aux;
         }

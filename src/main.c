@@ -39,20 +39,22 @@ int main(int argc, char *argv[]) {
 
     char *lineBuffer = NULL;
     size_t n = 0;
-
+    int linhas = 0;
     while (!feof(stdin)) {
-        getline(&lineBuffer, &n, stdin);
-        trimWhitespace(lineBuffer);
-        char* token = strtok(lineBuffer, " ");
+        linhas = getline(&lineBuffer, &n, stdin);
+        if(linhas>1){
+            trimWhitespace(lineBuffer);
+            char* token = strtok(lineBuffer, " ");
 
-        while (token) {
-            printf("%s\n", token);
-            Pages* aux = search(trie, token);
-            showPageList(aux);
-            if(aux) printf("achou algo\n");
-            token = strtok(NULL, " ");
+            while (token) {
+                printf("%s\n", token);
+                Pages* aux = search(trie, token);
+                showPageList(aux);
+                if(aux) printf("achou algo\n");
+                token = strtok(NULL, " ");
+            }
+            printf("\n");
         }
-        printf("\n");
     }
 
     free(lineBuffer);

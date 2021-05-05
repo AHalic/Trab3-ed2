@@ -78,8 +78,8 @@ int readIndex(char* arq, Hash* hashFiles) {
     // Lendo index.txt e preenchendo a hash
     while(!feof(indexFile)) {
         linhas = getline(&lineBuffer, &n, indexFile);
-        trimWhitespace(lineBuffer);
         if(linhas > 1) {
+            trimWhitespace(lineBuffer);
             accessHash(hashFiles, lineBuffer);
             nFiles++;
         }

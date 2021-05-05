@@ -47,8 +47,8 @@ Node* accessHash (Hash* h, char* string) {
             printf("erro em %s\n", string);
             return NULL;
     }
-
-    aux_list = searchNode(h->array[index], string, &flag);
+    // if(h->array[index] != NULL)
+        aux_list = searchNode(h->array[index], string, &flag);
     
     if (flag) {
         return aux_list;
