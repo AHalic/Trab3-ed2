@@ -3,6 +3,7 @@
 
 #include "node.h"
 
+
 typedef struct page Pages;
 
 /*
@@ -33,6 +34,10 @@ char* getPageName (Pages* page);
  * Output: int
  */ 
 int getIndex (Pages* pal);
+
+double getPR (Pages* page);
+
+Pages* getNext(Pages* page);
 
 /*
  * Verifica se a word existe dentro da lista de palavras

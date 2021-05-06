@@ -30,6 +30,14 @@ int getIndex (Pages* w) {
     return getNodeId(w->nodeFile);
 }
 
+double getPR (Pages* page) {
+    return getPR_old(page->nodeFile);
+}
+
+Pages* getNext(Pages* page) {
+    return page->next;
+}
+
 Pages* searchPage (Pages* pal, Node *nodeFile) {
     Pages* aux;
     
@@ -63,7 +71,7 @@ void showPageList (Pages* w) {
     }
     Pages* aux;
     for (aux = w; aux != NULL; aux = aux->next) {
-        printf("String: %s\n", getPageName(aux));
+        printf("String: %s PR: %lf\n", getPageName(aux), getPR(aux));
     }
 }
 

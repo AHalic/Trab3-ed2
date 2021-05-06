@@ -28,8 +28,7 @@ int isListEmpty (List* list) {
     return (list->first == NULL);
 }
 
-// TODO: inserir ordenado pelo page rank 
-void insertPageToList (Pages* page, List* list) {
+void insertPageToList (Pages* page, List* list) {    
     Cell* novo = (Cell*) malloc (sizeof(Cell));
 
     if(list->last == NULL) {
@@ -86,6 +85,62 @@ void removePage (List* list, int id) {
     free(p);
 }
 
+void filterList(List* list, Pages* pages) {
+    Pages* auxP = pages, *beforeP;
+    Cell* beforeL;
+    Cell* auxL = list->first;
+    for(auxL = auxL; auxL != NULL && auxP != NULL; auxL = auxL->next) {
+        printf("sou página %s ", getPageName(auxL->pages));
+        if (getIndex(auxL->pages) == getIndex(auxP)) {
+            printf(" entrei pq sao iguais\n");
+            auxP = getNext(auxP);
+        }
+        else if (getPR(auxL->pages) >= getPR(auxP)) {
+            int id = getIndex(auxL->pages);
+            printf(" entrei pq tem q retirar o nó %d\n", id);
+            auxL = beforeL;
+            removePage(list, id);
+        }
+        else {
+            while (getPR(auxL->pages) < getPR(auxP)) {
+                auxP = getNext(auxP);
+                if (getIndex(auxL->pages) == getIndex(auxP)) {
+                    auxP = getNext(auxP);
+                    break;
+                }
+                else if (getPR(auxL->pages) >= getPR(auxP)) {
+                    int id = getIndex(auxL->pages);
+                    auxL = beforeL;
+                    removePage(list, id);
+                }
+            }
+        }
+        beforeL = auxL;
+        beforeP = auxP;
+    }
+
+    if (auxP == NULL) {
+        // beforeL = NULL;
+        for (auxL = auxL; auxL != NULL; auxL = auxL->next) {
+            int id = getIndex(auxL->pages);
+            auxL = beforeL;
+            removePage(list, id);              
+        }
+    }
+    
+    
+}
+
+void copyPagesList(Pages* pages, List* list) {
+    Pages* aux = pages;
+    do
+    {
+        insertPageToList(aux, list);
+        aux = getNext(aux);
+    } while (aux != NULL);
+    
+}
+
 void showList (List* list) {
     Cell* aux = list->first;
 
@@ -95,6 +150,14 @@ void showList (List* list) {
         aux = aux->next;
     }
     printf("\n");
+
+    aux = list->first;
+
+    while (aux != NULL) {
+        // Imprimir 
+        printf("%lf ", getPR(aux->pages));
+        aux = aux->next;
+    }
     
 }
 
@@ -110,3 +173,11 @@ void destroyList(List* list) {
 
     free(list);
 }
+
+/*
+a   b    c    d
+4   3    2    1
+
+e   a    b    f
+5   4    3    1
+*/

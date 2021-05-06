@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include "page.h"
+#include "lista.h"
 #include "hash.h"
 #include "utils.h"
 
@@ -26,6 +27,7 @@ int main(int argc, char *argv[]) {
     Graph *graph = initGraph(filesVector, numFiles);
     readGraph(dir, hashFiles, graph);
     updatePageRank(graph);
+    showAllPR(graph);
 
     // ordena vetor de arquivos
     sortNodeVector(filesVector, numFiles);   // nao seria legal isso ser parte de graph, ter uma funcao que chama?
@@ -39,7 +41,10 @@ int main(int argc, char *argv[]) {
 
     char *lineBuffer = NULL;
     size_t n = 0;
-    int linhas = 0;
+    int linhas = 0, first = 1;
+    List* found = initList();
+
+    // showAllPR(graph);
     while (!feof(stdin)) {
         linhas = getline(&lineBuffer, &n, stdin);
         if(linhas>1){
@@ -47,12 +52,23 @@ int main(int argc, char *argv[]) {
             char* token = strtok(lineBuffer, " ");
 
             while (token) {
-                printf("%s\n", token);
-                Pages* aux = search(trie, token);
-                showPageList(aux);
-                if(aux) printf("achou algo\n");
+                printf("%s \n", token);
+                if (first) {
+                    Pages* aux = search(trie, token);
+                    first = 0;
+                    copyPagesList(aux, found);
+                    showPageList(aux);
+                }
+                else {
+                    Pages* aux = search(trie, token);
+                    showPageList(aux);
+                    filterList(found, aux);
+                }
+                
+                // if(found) printf("achou algo\n");
                 token = strtok(NULL, " ");
             }
+            showList(found);
             printf("\n");
         }
     }
