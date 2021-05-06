@@ -30,21 +30,22 @@ int getNumNodes(Graph* graph) {
 
 void updatePageRank(Graph *graph) {
     int tam = graph->nNodes;
-	
+	int counter = 0;
     while (1) {
         double error = 0;
         for (int i = 0; i < tam; i++){
             // pega o influenciador
             Node *aux = graph->nodeArray[i];
             calcPageRank(aux, tam);
+            counter++;
         }
         for (int i = 0; i < tam; i++) {
             Node *aux = graph->nodeArray[i];
             double diff = changePRs(aux);
             error += diff * diff;
         }
-
         error = sqrt(error);
+        printf("cont = %d e erro = %lf\n", counter, error);
         if (error <= 0.000001) {
             break;
         }

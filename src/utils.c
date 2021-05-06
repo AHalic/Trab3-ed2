@@ -32,17 +32,14 @@ void toLowerString(char *string){
 char *trimWhitespace(char *str) {
   char *end;
 
-  // Trim leading space
   while(isspace((unsigned char)*str)) str++;
 
-  if(*str == 0)  // All spaces?
+  if(*str == 0) 
     return str;
 
-  // Trim trailing space
   end = str + strlen(str) - 1;
   while(end > str && isspace((unsigned char)*end)) end--;
 
-  // Write new null terminator character
   end[1] = '\0';
 
   return str;
@@ -153,7 +150,7 @@ void readStopWords (char* dir, Trie* trie) {
     // ler stopwords e armazena palavras
     while(!feof(stopWordsFile)) {
         getline(&lineBuffer, &n, stopWordsFile);
-        lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
+        trimWhitespace(lineBuffer);
         insert(&trie , lineBuffer, NULL, true); // true = eh stopword
     }
 
@@ -190,8 +187,8 @@ void readPages(char* dir, Graph* graph, Trie* trie) {
             getline(&lineBuffer, &n, page);
             lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
             char* token = strtok(lineBuffer, " ");
+            trimWhitespace(token);
 
-        //        printf("consulta: ");
             while (token) {
                 insert(&trie , token, filesVector[i], false);  // false = nao eh stopword
                 token = strtok(NULL, " ");

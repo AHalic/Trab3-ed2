@@ -176,24 +176,32 @@ void calcPageRank(Node* node, int nNodes){
     if(node->oldPR == 0) {
         node->newPR = 1.0 / nNodes;
     }else{
+        printf("entrei no else 1\n");
         if(node->influenced == 0){
             node->newPR = 0.15 / nNodes + 0.85 * node->oldPR;
             Connection * connection = node->connection;
             while (connection){
+                // TODO: O vetor de connection esta cagado
+                printf("tem connection 1\n");
                 Node* aux = connection->node;
                 node->newPR += 0.85 * aux->oldPR/aux->influenced;
                 connection = connection->next;
             }
         }else{
+            printf("entrei no else 2\n");
             node->newPR = 0.15 / nNodes;
             Connection * connection = node->connection;
             while (connection){
+                // TODO: O vetor de connection esta cagado
+                printf("tem connection 2\n");
                 Node* aux = connection->node;
                 node->newPR += 0.85 * aux->oldPR/aux->influenced;
                 connection = connection->next;
             }
         }
     }
+    printf("Node: %s ", node->fileName);
+    printf("New: %lf Old: %lf\n", node->newPR, node->oldPR);
 }
 
 double changePRs(Node* node){
@@ -206,7 +214,7 @@ double changePRs(Node* node){
 static int compareNodes(const void* n1, const void* n2) {
     const Node* pri = *(const Node**) n1;
     const Node* seg = *(const Node**) n2;
-    return (pri->oldPR < seg->oldPR) - (pri->oldPR > seg->oldPR);
+    return (pri->oldPR > seg->oldPR) - (pri->oldPR < seg->oldPR);
 }
 
 void sortNodeVector(Node** nodeVet, int size){
