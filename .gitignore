@@ -11,3 +11,8 @@ trab3
 .vscode
 .DS_Store
 .DS_Store/*
+
+# Clion
+CMakeLists.txt
+cmake-build-debug
+.idea
