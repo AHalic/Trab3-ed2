@@ -89,7 +89,7 @@ void insert(Trie** head, char* str, Node *nodeFile, int isStop) {
 	}
 }
 
-Pages* search(Trie *head, const char *str) {
+Pages* search(Trie *head, const char *str, int* flag) {
 	if (head == NULL) return NULL;
     char *normalizedStr = strdup(str);
     toLowerString(normalizedStr);
@@ -118,6 +118,7 @@ Pages* search(Trie *head, const char *str) {
 	free(normalizedStr);
 
 	if (curr->isStop){
+		*flag = 1;
 		return NULL;
 	}
 	

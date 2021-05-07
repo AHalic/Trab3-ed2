@@ -3,11 +3,10 @@
 #include <stdlib.h>
 
 #include "page.h"
-#include "lista.h"
 #include "hash.h"
 #include "utils.h"
 
-#define HASH_SZ 127 // TO DO: pesquisar como escolher um tamanho de HASH
+#define HASH_SZ 509 // TO DO: pesquisar como escolher um tamanho de HASH
 
 int getUserInput(char *returnStr, int maxStringLength);
 
@@ -44,38 +43,42 @@ int main(int argc, char *argv[]) {
     int linhas = 0, first = 1;
     Pages* found = NULL;
 
-    // showAllPR(graph);
+    // busca 
     while (!feof(stdin)) {
         linhas = getline(&lineBuffer, &n, stdin);
-        if(linhas>1){
+
+        if(linhas > 1){
             trimWhitespace(lineBuffer);
             char* token = strtok(lineBuffer, " ");
 
             while (token) {
-                // printf("%s \n", token);
+                int flag = 0;
+                Pages* aux = search(trie, token, &flag);
+                
+                // se for stopword, vai para proxima palavra
+                if(aux == NULL && flag == 1){
+                    token = strtok(NULL, " ");
+                    continue;
+                }
+
                 if (first) {
-                    Pages* aux = search(trie, token);
                     first = 0;
                     found = getPagesCopy(aux);
-                    // copyPagesList(aux, found);
-                    // showPageList(found);
                 }
                 else {
-                    Pages* aux = search(trie, token);
-                    // showPageList(aux);
                     found = filterPageList(found, aux);
                 }
-                
-                // if(found) printf("achou algo\n");
+
                 token = strtok(NULL, " ");
             }
+            
             showPageList(found);
-            // printf("\n");
             destroyPageList(found);
             first = 1;
         }
     }
 
+    // libera memoria
     free(lineBuffer);
     destroyGraph(graph);
     destroyTrie(trie);

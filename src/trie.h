@@ -9,7 +9,7 @@ Trie* initTrieNode();
 
 void insert(Trie* *head, char* str, Node *nodeFile, int isStop);
 
-Pages* search(Trie *head, const char *str);
+Pages* search(Trie *head, const char *str, int* flag);
 
 void destroyTrie(Trie* curs);
 
