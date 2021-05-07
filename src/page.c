@@ -70,6 +70,7 @@ Pages* getPagesCopy(Pages* nodeList){
     return newPagesList;
 }
 
+
 char* getPageName (Pages* page) {
     return getFileName(page->nodeFile);
 }
@@ -104,9 +105,9 @@ Pages* insertPage (Pages* lista, Pages* p) {
 
 void showPageList (Pages* w) {
     if(w == NULL){
-        printf("página nula\n");
         return;
     }
+
     Pages* aux;
 
     for (aux = w; aux != NULL; aux = aux->next) {
