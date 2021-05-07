@@ -201,3 +201,51 @@ void readPages(char* dir, Graph* graph, Trie* trie) {
     free(lineBuffer);
 }
 
+void readSearch (Trie* trie) {
+    char *lineBuffer = NULL;
+    size_t n = 0;
+    int linhas = 0, first = 1;
+    Pages* found = NULL;
+
+    int flag;
+    
+    // busca 
+    while (!feof(stdin)) {
+        linhas = getline(&lineBuffer, &n, stdin);
+
+        if(linhas > 1){
+            trimWhitespace(lineBuffer);
+            char* token = strtok(lineBuffer, " ");
+
+            while (token) {
+                flag = 0;
+                printf("token %s\n", token);
+                Pages* aux = search(trie, token, &flag);
+                
+                // se for stopword, vai para proxima palavra
+                if(aux == NULL && flag == 1){
+                    token = strtok(NULL, " ");
+                    continue;
+                }
+
+                if (first) {
+                    first = 0;
+                    found = getPagesCopy(aux);
+                }
+                else {
+                    found = filterPageList(found, aux);
+                }
+
+                token = strtok(NULL, " ");
+            }
+
+            if(!flag){
+                showPageList(found);
+                destroyPageList(found);
+                first = 1;
+            }
+        }
+    }
+
+    free(lineBuffer);
+}

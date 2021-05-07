@@ -22,4 +22,6 @@ void readStopWords (char* dir, Trie* trie);
 
 void readPages(char* dir, Graph* graph, Trie* trie);
 
+void readSearch (Trie* trie);
+
 #endif
