@@ -34,16 +34,7 @@ Pages* filterPageList(Pages* baseList, Pages* filterList);
  */ 
 char* getPageName (Pages* page);
 
-/* 
- * Retorna o numero de ocorrencias daquela word
- * Input: Pages*
- * Output: int
- */ 
-int getIndex (Pages* pal);
-
 double getPR (Pages* page);
-
-Pages* getNext(Pages* page);
 
 /*
  * Verifica se a word existe dentro da lista de palavras
