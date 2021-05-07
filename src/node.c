@@ -45,6 +45,7 @@ Node* initNode(int id, char* fileName) {
     new->connection = NULL;
     new->influenced = new->influences = 0;
     new->oldPR = new->newPR = 0;
+    new->next = NULL;
 
     return new;
 }
@@ -88,10 +89,10 @@ void destroyNode(Node* node) {
 }
 
 void destroyNodeVector(Node** vector, int sz) {
-    for (int i = 0; i< sz; i++) { // 5 files
-        destroyNode(vector[i]); // 1 + influencias + 1
+    for (int i = 0; i< sz; i++) {
+        destroyNode(vector[i]);
     }
-    free(vector); // 1
+    free(vector);
 }
 
 void printConnection(Connection* connection) {
@@ -123,28 +124,12 @@ int getNodeId(Node* node) {
     return node->id;
 }
 
-double getPR_old(Node* node) {
+double getOldPR(Node* node) {
     return node->oldPR;
-}
-
-double getPR_new(Node* node) {
-    return node->newPR;
-}
-
-int getNodeInfluenced(Node* node) {
-    return node->influenced;
 }
 
 void setNodeInfluenced(Node* node, int value) {
     node->influenced = value;
-}
-
-int getNodeInfluences(Node* node) {
-    return node->influences;
-}
-
-void setNodeInfluences(Node* node, int value) {
-    node->influences = value;
 }
 
 void insertNextNode(Node* origin, Node* next) {
@@ -152,19 +137,13 @@ void insertNextNode(Node* origin, Node* next) {
 }
 
 Node *searchNode(Node *node, char *string, int *flag) {
-    Node* aux, *before = NULL;
-    // printf("%s\n", node->fileName);
-    for (aux = node; aux != NULL; aux = aux->next) {
-        if (aux == NULL){
-            printf("nó nulo??\n");
-            break;
-        }
+    Node* aux = NULL, *before = NULL;
 
+    for (aux = node; aux != NULL; aux = aux->next) {
         if ( aux->fileName != NULL && strcmp (string, aux->fileName) == 0) {
             *flag = 1;
             return aux;
         }
-
         before = aux;
     }
 
@@ -174,7 +153,8 @@ Node *searchNode(Node *node, char *string, int *flag) {
 void calcPageRank(Node* node, int nNodes){
     if(node->oldPR == 0) {
         node->newPR = 1.0 / nNodes;
-    }else{
+    }
+    else {
         if(node->influenced == 0){
             node->newPR = 0.15 / nNodes + 0.85 * node->oldPR;
             Connection * connection = node->connection;
@@ -184,7 +164,8 @@ void calcPageRank(Node* node, int nNodes){
                 node->newPR += 0.85 * aux->oldPR/aux->influenced;
                 connection = connection->next;
             }
-        }else{
+        }
+        else {
             node->newPR = 0.15 / nNodes;
             Connection * connection = node->connection;
             while (connection){

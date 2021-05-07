@@ -25,17 +25,9 @@ char* getFileName(Node* node);
 
 int getNodeId(Node* node);
 
-double getPR_old(Node* node);
-
-double getPR_new(Node* node);
-
-int getNodeInfluenced(Node* node);
+double getOldPR(Node* node);
 
 void setNodeInfluenced(Node* node, int value);
-
-int getNodeInfluences(Node* node);
-
-void setNodeInfluences(Node* node, int value);
 
 void insertNextNode(Node* origin, Node* next);
 
@@ -46,6 +38,5 @@ void calcPageRank(Node* node, int nNodes);
 double changePRs(Node* node);
 
 void sortNodeVector(Node** nodeVet, int size);
-
 
 #endif
