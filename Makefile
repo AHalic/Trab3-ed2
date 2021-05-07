@@ -33,7 +33,7 @@ all: clean $(EXECUTABLE)
 
 .PHONY: clean
 clean:
-	-$(RM) $(OBJECTS)
+	@-$(RM) $(OBJECTS)
 
 # Comandos para executar
 run: 
@@ -41,20 +41,25 @@ run:
 	echo "run0"
 
 run0: 
-	./$(EXECUTABLE) $(DIR_ENT0) 
+	@./$(EXECUTABLE) $(DIR_ENT0) 
+
 run1:
-	./$(EXECUTABLE) $(DIR_ENT1)
+	@./$(EXECUTABLE) $(DIR_ENT1)
+
 run2:
-	./$(EXECUTABLE) $(DIR_ENT2)
+	@./$(EXECUTABLE) $(DIR_ENT2)
+
 run3:
-	./$(EXECUTABLE) $(DIR_ENT3)
+	@./$(EXECUTABLE) $(DIR_ENT3)
+
 run4:
-	./$(EXECUTABLE) $(DIR_ENT4)
+	@./$(EXECUTABLE) $(DIR_ENT4)
+
 run5:
-	./$(EXECUTABLE) $(DIR_ENT5)
+	@./$(EXECUTABLE) $(DIR_ENT5)
 	
 $(EXECUTABLE): $(OBJECTS)
-	$(CC) $(CFLAGS) $(CINCLUDES) $^ -o $@ $(LIBRARIES) -lm
+	@$(CC) $(CFLAGS) $(CINCLUDES) $^ -o $@ $(LIBRARIES) -lm
 
 # Comandos para executar com valgrind
 val: 
@@ -62,14 +67,19 @@ val:
 	echo "val0"
 
 val0: 
-	valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT0)
+	@valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT0)
+
 val1:
-	valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT1)
+	@valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT1)
+
 val2:
-	valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT2)
+	@valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT2)
+
 val3:
-	valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT3)
+	@valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT3)
+
 val4:
-	valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT4)
+	@valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT4)
+
 val5:
-	valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT5)
+	@valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT5)
