@@ -27,15 +27,6 @@ Pages* getPagesCopy(Pages* nodeList);
 */
 Pages* filterPageList(Pages* baseList, Pages* filterList);
 
-
-/**
- * Retorna o node da pagina
- * Input: Pages* 
- * Output: Node*
-*/
-Node* getPageNode (Pages* page);
-
-
 /* 
  * Retorna a string da word
  * Input: Pages*
@@ -67,13 +58,6 @@ Pages* searchPage (Pages* pal, Node *nodeFile);
  * Output: Pages*
  */ 
 Pages* insertPage (Pages* lista, Pages* p);
-
-/*
- * Conta a quantidade de palavras na lista
- * Input: Pages*
- * Output: int
- */ 
-int getQtyPages (Pages* p);
 
 /*
  * Imprime lista de palavras

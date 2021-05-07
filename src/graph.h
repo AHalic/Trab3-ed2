@@ -16,6 +16,4 @@ void updatePageRank(Graph* graph);
 
 void destroyGraph(Graph* graph);
 
-void showAllPR(Graph* graph);
-
 #endif

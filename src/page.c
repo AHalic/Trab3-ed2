@@ -70,10 +70,6 @@ Pages* getPagesCopy(Pages* nodeList){
     return newPagesList;
 }
 
-Node* getPageNode (Pages* page){
-    return page->nodeFile;
-}
-
 char* getPageName (Pages* page) {
     return getFileName(page->nodeFile);
 }
@@ -83,7 +79,7 @@ int getIndex (Pages* w) {
 }
 
 double getPR (Pages* page) {
-    return getPR_old(page->nodeFile);
+    return getOldPR(page->nodeFile);
 }
 
 Pages* getNext(Pages* page) {
@@ -106,17 +102,6 @@ Pages* insertPage (Pages* lista, Pages* p) {
     return p;
 }
 
-int getQtyPages (Pages* p) {
-    Pages* aux;
-    int qty = 0;
-
-    for (aux = p; aux != NULL; aux = aux->next) {
-        qty++;
-    }
-
-    return qty;
-}
-
 void showPageList (Pages* w) {
     if(w == NULL){
         printf("página nula\n");
@@ -132,7 +117,7 @@ void showPageList (Pages* w) {
     }
     printf("\n");
     for (aux = w; aux != NULL; aux = aux->next) {
-        printf("%lf ", getPR(aux));
+        printf("%.8lf ", getPR(aux));
         if(aux->next == NULL){
             break;
         }

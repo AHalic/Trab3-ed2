@@ -11,8 +11,6 @@ void insert(Trie* *head, char* str, Node *nodeFile, int isStop);
 
 Pages* search(Trie *head, const char *str);
 
-int haveChildren(Trie* curr);
-
 void destroyTrie(Trie* curs);
 
 #endif

@@ -21,13 +21,6 @@ Node* accessHash (Hash* h, char* string);
 Node* find(Hash* h, char* string);
 
 /*
- * Imprime a tabela Hash
- * Input: Hash*
- * Output: void
- */ 
-void showHash (Hash* h);
-
-/*
  * Libera a memoria alocada pela tabela hash
  * Input: Hash*
  * Output: void

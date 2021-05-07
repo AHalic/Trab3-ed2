@@ -124,47 +124,6 @@ Pages* search(Trie *head, const char *str) {
 	return curr->files;
 }
 
-int haveChildren(Trie* curr) {
-	for (int i = 0; i < SZ; i++)
-		if (curr->characters[i])
-			return 1;	// child found
-
-	return 0;
-}
-
-/*
-int deletion(Trie* *curr, char* str) {
-	if (*curr == NULL) return 0;
-	if (*str) {
-		if (*curr != NULL && (*curr)->characters[*str - 'a'] != NULL &&
-			deletion(&((*curr)->characters[*str - 'a']), str + 1) &&
-			(*curr)->isLeaf == 0) {
-			if (!haveChildren(*curr)) 	{
-				free(*curr);
-				(*curr) = NULL;
-				return 1;
-			}
-			else {
-				return 0;
-			}
-		}
-	}
-	if (*str == '\0' && (*curr)->isLeaf) {
-		if (!haveChildren(*curr)) {
-			free(*curr);
-			(*curr) = NULL;
-			return 1;
-		}
-		else {
-			(*curr)->isLeaf = 0;
-			return 0;
-		}
-	}
-
-	return 0;
-}
-*/
-
 void destroyTrie(Trie* curs) {
     int i;
     if(!curs) return;

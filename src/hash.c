@@ -34,7 +34,7 @@ static int hashCode (char* s, int sz) {
 }
 
 Node* accessHash (Hash* h, char* string) {
-    Node* aux_list, *aux_node;
+    Node* aux_list = NULL, *aux_node = NULL;
     int flag = 0;
 
     int index = hashCode(string, h->sz);
@@ -73,14 +73,6 @@ Node* find(Hash* h, char* string) {
     int index = hashCode(string, h->sz);
     Node* aux_n = searchNode(h->array[index], string, NULL);
     return aux_n;
-}
-
-void showHash (Hash* h) {
-    for (int i = 0; i < h->sz; i++) {
-        if (h->array[i] != NULL) {
-            printNode(h->array[i]);
-        }
-    }
 }
 
 void destroyHash (Hash* h) {

@@ -51,13 +51,6 @@ void updatePageRank(Graph *graph) {
     }
 }
 
-void showAllPR(Graph *graph) {
-    for (int i = 0; i < graph->nNodes; i++) {
-        printf("Page: %s: \n", getFileName(graph->nodeArray[i]));
-        printf("PR: %lf\n", getPR_old(graph->nodeArray[i]));
-    }
-}
-
 void destroyGraph(Graph *graph) {
     destroyNodeVector(graph->nodeArray, graph->nNodes);
     free(graph);
