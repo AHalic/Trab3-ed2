@@ -14,6 +14,21 @@ typedef struct page Pages;
 Pages* initPage (Node *nodeFile);
 
 /**
+ * Faz uma cópia de nodeList e retorna
+ * Input: Pages*
+ * Output: Pages*
+*/
+Pages* getPagesCopy(Pages* nodeList);
+
+/**
+ * Filtra a lista de páginas baseList usando uma outra lista de páginas filterList (faz a interseção das duas listas)
+ * Input: Pages*, Pages*
+ * Output: Pages*
+*/
+Pages* filterPageList(Pages* baseList, Pages* filterList);
+
+
+/**
  * Retorna o node da pagina
  * Input: Pages* 
  * Output: Node*

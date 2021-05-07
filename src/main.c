@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
     Graph *graph = initGraph(filesVector, numFiles);
     readGraph(dir, hashFiles, graph);
     updatePageRank(graph);
-    showAllPR(graph);
+    // showAllPR(graph);
 
     // ordena vetor de arquivos
     sortNodeVector(filesVector, numFiles);   // nao seria legal isso ser parte de graph, ter uma funcao que chama?
@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
     char *lineBuffer = NULL;
     size_t n = 0;
     int linhas = 0, first = 1;
-    List* found = initList();
+    Pages* found = NULL;
 
     // showAllPR(graph);
     while (!feof(stdin)) {
@@ -52,29 +52,31 @@ int main(int argc, char *argv[]) {
             char* token = strtok(lineBuffer, " ");
 
             while (token) {
-                printf("%s \n", token);
+                // printf("%s \n", token);
                 if (first) {
                     Pages* aux = search(trie, token);
                     first = 0;
-                    copyPagesList(aux, found);
-                    showPageList(aux);
+                    found = getPagesCopy(aux);
+                    // copyPagesList(aux, found);
+                    // showPageList(found);
                 }
                 else {
                     Pages* aux = search(trie, token);
-                    showPageList(aux);
-                    filterList(found, aux);
+                    // showPageList(aux);
+                    found = filterPageList(found, aux);
                 }
                 
                 // if(found) printf("achou algo\n");
                 token = strtok(NULL, " ");
             }
-            showList(found);
-            printf("\n");
+            showPageList(found);
+            // printf("\n");
+            destroyPageList(found);
+            first = 1;
         }
     }
 
     free(lineBuffer);
-
     destroyGraph(graph);
     destroyTrie(trie);
     return 0;

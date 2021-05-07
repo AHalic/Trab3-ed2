@@ -132,6 +132,7 @@ void filterList(List* list, Pages* pages) {
 }
 
 void copyPagesList(Pages* pages, List* list) {
+    if(pages != NULL) return;
     Pages* aux = pages;
     do
     {
@@ -143,8 +144,11 @@ void copyPagesList(Pages* pages, List* list) {
 
 void showList (List* list) {
     Cell* aux = list->first;
-
+    if(aux == NULL){
+        printf("lista nula\n");
+    }
     while (aux != NULL) {
+        printf("entrou no primeiro while\n");
         // Imprimir 
         printf("%s ", getPageName(aux->pages));
         aux = aux->next;
@@ -154,11 +158,12 @@ void showList (List* list) {
     aux = list->first;
 
     while (aux != NULL) {
+        printf("entrou no segundo while\n");
         // Imprimir 
         printf("%lf ", getPR(aux->pages));
         aux = aux->next;
     }
-    
+    printf("\n");
 }
 
 void destroyList(List* list) {
