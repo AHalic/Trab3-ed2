@@ -69,12 +69,6 @@ Node* accessHash (Hash* h, char* string) {
     return aux_node; // TODO: rever se precisa retornar algo
 }
 
-Node* find(Hash* h, char* string) {
-    int index = hashCode(string, h->sz);
-    Node* aux_n = searchNode(h->array[index], string, NULL);
-    return aux_n;
-}
-
 void destroyHash (Hash* h) {
     // destroyNodeVector(h->array, h->sz);
     free(h->array);

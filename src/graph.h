@@ -5,7 +5,6 @@
 
 typedef struct graph Graph;
 
-
 Graph *initGraph(Node** vector, int nNodes);
 
 Node** getNodeArray(Graph* graph);

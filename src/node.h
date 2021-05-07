@@ -17,8 +17,6 @@ void destroyNode(Node* node);
 
 void destroyNodeVector(Node** vector, int sz);
 
-void printNode(Node* node);
-
 char* getFileName(Node* node);
 
 char* getFileName(Node* node);

@@ -95,29 +95,6 @@ void destroyNodeVector(Node** vector, int sz) {
     free(vector);
 }
 
-void printConnection(Connection* connection) {
-    if (connection == NULL) return;
-
-    Connection *aux = connection;
-
-    printf("Connection: ");
-    while (aux != NULL) {
-        printf("%s, ", aux->node->fileName);
-        aux = aux->next;
-    }
-    
-}
-
-void printNode(Node* node) {
-    printf("[%d] %s: \n"
-        "\tPR old=%f PR new=%f\n"
-        "\tqtdInfluenciados=%d qtdInfluncias=%d\n", node->id, node->fileName, node->oldPR, node->newPR, node->influenced, node->influences);
-    printConnection(node->connection);
-    printf("\n");
-}
-
-
-
 char* getFileName(Node* node) {
     return node->fileName;
 }

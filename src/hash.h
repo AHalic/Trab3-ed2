@@ -18,8 +18,6 @@ Hash* initHash (int sz);
  */ 
 Node* accessHash (Hash* h, char* string);
 
-Node* find(Hash* h, char* string);
-
 /*
  * Libera a memoria alocada pela tabela hash
  * Input: Hash*
