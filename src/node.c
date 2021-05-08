@@ -166,7 +166,17 @@ double changePRs(Node* node){
 static int compareNodes(const void* n1, const void* n2) {
     const Node* pri = *(const Node**) n1;
     const Node* seg = *(const Node**) n2;
-    return (pri->oldPR < seg->oldPR) - (pri->oldPR > seg->oldPR);
+    if (pri->oldPR < seg->oldPR) {
+        return 1;
+    }
+    else if (pri->oldPR > seg->oldPR) {
+        return -1;
+    }
+    else {
+        return strcmp(pri->fileName, seg->fileName);        
+    }
+
+    // return (pri->oldPR < seg->oldPR) - (pri->oldPR > seg->oldPR);
 }
 
 void sortNodeVector(Node** nodeVet, int size){
