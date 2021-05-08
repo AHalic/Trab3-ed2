@@ -8,6 +8,10 @@
 
 #define SZ 37 // 26 letras + 10 digitos + hifen
 
+// characters: vetor para caber 26 letras + 10 digitos + hifen
+// files: lista de Pages
+// isLeaf: flag para ver se chegou no final da palavra
+// isStop: flag para ver se eh stopword
 struct trie {
     Trie* characters[37];
     Pages* files;
@@ -15,7 +19,6 @@ struct trie {
     bool isStop;
 };
 
-// Function that returns a new Trie node
 Trie* initTrieNode() {
 	Trie* node = (Trie*)malloc(sizeof(Trie));
 	node->files = NULL;
@@ -29,27 +32,27 @@ Trie* initTrieNode() {
 }
 
 // Iterative function to insert a string in Trie.
-void insert(Trie** head, char* str, Node *nodeFile, int isStop) {
+void insert(Trie** head, char* string, Node* nodeFile, int isStop) {
 	// start from root node
-    toLowerString(str);
+    toLowerString(string);
 	Trie* curr = *head, *aux_trie;
-	while (*str) {
-		if((*str - '0')>=0 && (*str - '0')<=9){
+	while (*string) {
+		if((*string - '0')>=0 && (*string - '0')<=9){
 			// initTrieNode para digitos
-			if (curr->characters[(*str - '0') + 26] == NULL) {
-				curr->characters[(*str - '0') + 26] = initTrieNode();
+			if (curr->characters[(*string - '0') + 26] == NULL) {
+				curr->characters[(*string - '0') + 26] = initTrieNode();
 			}
-            aux_trie = curr->characters[(*str - '0') + 26];
+            aux_trie = curr->characters[(*string - '0') + 26];
 		}
-		else if ((*str - 'a') >= 0 && (*str - 'a')<26) {
+		else if ((*string - 'a') >= 0 && (*string - 'a')<26) {
 			// initTrieNode para letras do alfabeto
-			if (curr->characters[*str - 'a'] == NULL) {
-				curr->characters[*str - 'a'] = initTrieNode();
-                aux_trie = curr->characters[*str - 'a'];
+			if (curr->characters[*string - 'a'] == NULL) {
+				curr->characters[*string - 'a'] = initTrieNode();
+                aux_trie = curr->characters[*string - 'a'];
 			}
-            aux_trie = curr->characters[*str - 'a'];
+            aux_trie = curr->characters[*string - 'a'];
 		}
-		else if (*str == '-'){
+		else if (*string == '-'){
 			// initTrieNode para hifen
 			if (curr->characters[36] == NULL) {
 				curr->characters[36] = initTrieNode();
@@ -59,7 +62,7 @@ void insert(Trie** head, char* str, Node *nodeFile, int isStop) {
 		} 
 
 		curr = aux_trie;
-		str++;
+		string++;
 	}
 
 	//cria e coloca as coisas da estrutura no nó
