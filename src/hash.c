@@ -26,7 +26,8 @@ Hash* initHash (int sz) {
 static int hashCode (char* s, int sz) {
     int total = 0;
     for(int i  = 0; s[i] != '\0'; i++) {
-        total = (s[i] * (total + 1)) % sz;
+        total = (251 * total + s[i]) % sz;
+        // total = (s[i] * (total + 1)) % sz;
         // total += s[i];
     }
 
