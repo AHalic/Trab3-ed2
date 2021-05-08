@@ -1,3 +1,0 @@
-valgrind --leak-check=full ./trab3 ./input/input0/
-d.txt 
-0.06695680 
