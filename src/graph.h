@@ -10,6 +10,7 @@ typedef struct graph Graph;
  * Inicializa o graph
  * @param {Node**}vector vetor de nodes
  * @param {int}nNodes quantidade de nós no vetor
+ * 
  * @return graph alocada e inicializada
 **/
 Graph *initGraph(Node** vector, int nNodes);
@@ -17,6 +18,7 @@ Graph *initGraph(Node** vector, int nNodes);
 /**
  * Retorna o vetor de nodes de graph
  * @param {Graph*}graph
+ * 
  * @return vetor de nodes
 **/
 Node** getNodeArray(Graph* graph);
@@ -24,6 +26,7 @@ Node** getNodeArray(Graph* graph);
 /**
  * Retorna a quantidade de nodes em graph
  * @param {Graph*}graph
+ * 
  * @return int quantidade de nodes
 **/
 int getNumNodes(Graph* graph);

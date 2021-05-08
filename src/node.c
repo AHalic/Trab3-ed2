@@ -19,8 +19,7 @@ typedef struct connection {
  * quantidade de influenciados e quantos influencia, mais uma lista de 
  * paginas que possui conexao com a pagina do node. 
  * 
- * id            = id atribuido a pagina dado a ordem de leitura do arquivo 
- *                 index.txt
+ * id            = id atribuido a pagina conforme calculo da hash
  * fileName      = nome do arquivo da pagina
  * connections   = lista de nodes, ou de paginas, a qual o nó tem uma conexao
  *                 de influenciadores. 
