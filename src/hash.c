@@ -22,13 +22,15 @@ Hash* initHash (int sz) {
     return h;
 }
 
-// Hash function
+/**
+ * Funcao de hash
+ * @param {char*}s string 
+ * @param {int}sz tamanho da hash
+ */
 static int hashCode (char* s, int sz) {
     int total = 0;
     for(int i  = 0; s[i] != '\0'; i++) {
         total = (251 * total + s[i]) % sz;
-        // total = (s[i] * (total + 1)) % sz;
-        // total += s[i];
     }
 
     return total;
@@ -48,8 +50,8 @@ Node* accessHash (Hash* h, char* string) {
             printf("erro em %s\n", string);
             return NULL;
     }
-    // if(h->array[index] != NULL)
-        aux_list = searchNode(h->array[index], string, &flag);
+
+    aux_list = searchNode(h->array[index], string, &flag);
     
     if (flag) {
         return aux_list;
@@ -67,11 +69,10 @@ Node* accessHash (Hash* h, char* string) {
         insertNextNode(aux_list, aux_node);
     }
 
-    return aux_node; // TODO: rever se precisa retornar algo
+    return aux_node; 
 }
 
 void destroyHash (Hash* h) {
-    // destroyNodeVector(h->array, h->sz);
     free(h->array);
     free(h);
 }
