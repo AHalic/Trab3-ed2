@@ -8,8 +8,13 @@
 
 #define HASH_SZ 509 
 
-int getUserInput(char *returnStr, int maxStringLength);
-
+/**
+ * Frase explictiva sobre a funcao. 
+ * @param {int}argc quantidade de argumentos
+ * @param {char*}argv[] vetor de argumentos
+ * 
+ * @return 0 se sucesso, 1 se nao
+ */
 int main(int argc, char *argv[]) {
     if (argc != 2)
         return 1;
@@ -23,8 +28,11 @@ int main(int argc, char *argv[]) {
     // cria grafo e calcula page rank
     int numFiles = readIndex(dir, hashFiles);
     Node **filesVector = initNodeVector(numFiles);
+
     Graph *graph = initGraph(filesVector, numFiles);
     readGraph(dir, hashFiles, graph);
+    destroyHash(hashFiles);
+
     updatePageRank(graph);
 
     // ordena vetor de arquivos
@@ -38,7 +46,7 @@ int main(int argc, char *argv[]) {
     readPages(dir, graph, trie);
 
     // faz busca
-    readSearch(trie);
+    searchQuery(trie);
 
     // libera memoria
     destroyGraph(graph);
