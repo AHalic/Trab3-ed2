@@ -59,8 +59,8 @@ FILE* openFile(char* dir, char* file){
     return fp;
 }
 
-int readIndex(char* arq, Hash* hashFiles) {
-    FILE* indexFile = openFile(arq, "index.txt");
+int readIndex(char* dir, Hash* hashFiles) {
+    FILE* indexFile = openFile(dir, "index.txt");
     
     if(!indexFile) {
         printf("Não foi encontrado o arquivo index.txt\n");
@@ -88,9 +88,9 @@ int readIndex(char* arq, Hash* hashFiles) {
     return nFiles;
 }
 
-void readGraph(char* file, Hash* hashFiles, Graph* graph) {
+void readGraph(char* dir, Hash* hashFiles, Graph* graph) {
     // abre arquivo de graph
-    FILE* graphFile = openFile(file, "graph.txt");
+    FILE* graphFile = openFile(dir, "graph.txt");
 
     // caso o arquivo nao existe
     if(!graphFile) {
