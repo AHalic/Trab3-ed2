@@ -19,38 +19,51 @@ Pages* initPage (Node *nodeFile) {
 }
 
 Pages* filterPageList(Pages* baseList, Pages* filterList){
-    Pages* base = baseList, *baseNext, *basePrev = NULL;
+    Pages* base = baseList, *baseNext = NULL, *basePrev = NULL;
     Pages* filter;
 
     while (base != NULL){
         int match = 1;
         baseNext = base->next;
         filter = filterList;
+        
+        // compara todos de filter para o no base
         while (filter != NULL){
-            if(getNodeId(filter->nodeFile) == getNodeId(base->nodeFile)){
+            if(getNodeId(filter->nodeFile) == getNodeId(base->nodeFile) 
+            && !strcmp(getFileName(filter->nodeFile), getFileName(base->nodeFile))) {
+                // achou nos iguais
                 match = 0;
             }
+
+
             filter = filter->next;
         }
+
+        // caso nao achou o no
         if(match){
-            if(basePrev == NULL){
+            // se a pagina anterior eh null
+            if(basePrev == NULL) {
                 Pages* aux = base;
                 base = baseNext;
                 aux->next = NULL;
                 baseList = base;
                 free(aux);
                 continue;
-            }else if(baseNext == NULL){
+            }
+            // se a proxima page eh null
+            else if(baseNext == NULL) {
                 free(base);
                 basePrev->next = NULL;
                 break;
-            }else{
+            }
+            else{
                 basePrev->next = baseNext;
                 base->next = NULL;
                 free(base);
                 base = basePrev;
             }
         }
+
         basePrev = base;
         base = base->next;
     }
