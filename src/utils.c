@@ -130,7 +130,6 @@ void readGraph(char* file, Hash* hashFiles, Graph* graph) {
     }
 
     free(lineBuffer);
-    destroyHash(hashFiles);
     fclose(graphFile);
 }
 
@@ -201,7 +200,7 @@ void readPages(char* dir, Graph* graph, Trie* trie) {
     free(lineBuffer);
 }
 
-void readSearch (Trie* trie) {
+void searchQuery (Trie* trie) {
     char *lineBuffer = NULL;
     size_t n = 0;
     int linhas = 0, first = 1;
@@ -213,22 +212,22 @@ void readSearch (Trie* trie) {
     while (!feof(stdin)) {
         linhas = getline(&lineBuffer, &n, stdin);
 
-        if(linhas > 1){
+        if(linhas > 1) {
             trimWhitespace(lineBuffer);
             char* token = strtok(lineBuffer, " ");
 
             while (token) {
                 flag = 0;
-                printf("token %s\n", token);
+                
                 Pages* aux = search(trie, token, &flag);
                 
                 // se for stopword, vai para proxima palavra
-                if(aux == NULL && flag == 1){
+                if(aux == NULL && flag == 1) {
                     token = strtok(NULL, " ");
                     continue;
                 }
 
-                if (first) {
+                if(first) {
                     first = 0;
                     found = getPagesCopy(aux);
                 }
@@ -239,7 +238,7 @@ void readSearch (Trie* trie) {
                 token = strtok(NULL, " ");
             }
 
-            if(!flag){
+            if(!flag) {
                 showPageList(found);
                 destroyPageList(found);
                 first = 1;
