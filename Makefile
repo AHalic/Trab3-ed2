@@ -70,10 +70,10 @@ val0:
 	@valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT0)
 
 val1:
-	@valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT1)
+	@valgrind --tool=massif ./$(EXECUTABLE) $(DIR_ENT1) 
 
 val2:
-	@valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT2)
+	@valgrind --tool=massif ./$(EXECUTABLE) $(DIR_ENT2)
 
 val3:
 	@valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT3)
