@@ -6,7 +6,7 @@
 
 typedef struct page Pages;
 
-/*
+/**
  * Inicializa a page
  * @param {Node*}nodeFile nó que será inserido na Page
  * 
@@ -32,7 +32,7 @@ Pages* getPagesCopy(Pages* nodeList);
 **/
 Pages* filterPageList(Pages* baseList, Pages* filterList);
 
-/* 
+/**
  * Retorna o nome do nó da página
  * @param {Pages*}page
  * 
@@ -47,7 +47,7 @@ char* getPageName (Pages* page);
 **/
 double getPR (Pages* page);
 
-/*
+/**
  * Verifica se o nó existe dentro da lista de pages
  * @param {Pages*}pal lista de pages
  * @param {Node*}nodeFile nó a ser buscado
@@ -56,7 +56,7 @@ double getPR (Pages* page);
  */ 
 Pages* searchPage (Pages* pal, Node *nodeFile);
 
-/*
+/**
  * Insere page a uma lista de pages
  * @param {Pages*}lista
  * @param {Pages*}p page que será inserida
@@ -65,13 +65,13 @@ Pages* searchPage (Pages* pal, Node *nodeFile);
  */ 
 Pages* insertPage (Pages* lista, Pages* p);
 
-/*
+/**
  * Imprime lista de pages
  * @param {Pages*}pal lista de pages
  */ 
 void showPageList (Pages* pal);
 
-/*
+/**
  * Libera memoria alocada pela lista de pages
  * @param {Pages*}pal
  */ 
