@@ -1,8 +1,6 @@
 #include "node.h"
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
-#include <math.h>
 
 /**
  * Lista de connection (conexoes), que aponta para a pagina conectada a pagina 
@@ -23,7 +21,7 @@ typedef struct connection {
  * fileName      = nome do arquivo da pagina
  * connections   = lista de nodes, ou de paginas, a qual o nó tem uma conexao
  *                 de influenciadores. 
- * influenced    = numero de de paginas influenciadas
+ * influenced    = numero de paginas influenciadas
  * influences    = numero de paginas que influencia
  * next          = a proxima pagina lida do arquivo index.txt
  */
@@ -137,7 +135,6 @@ void calcPageRank(Node* node, int nNodes){
             node->newPR = 0.15 / nNodes + 0.85 * node->oldPR;
             Connection * connection = node->connection;
             while (connection){
-                // TODO: O vetor de connection esta cagado
                 Node* aux = connection->node;
                 node->newPR += 0.85 * aux->oldPR/aux->influenced;
                 connection = connection->next;
@@ -147,7 +144,6 @@ void calcPageRank(Node* node, int nNodes){
             node->newPR = 0.15 / nNodes;
             Connection * connection = node->connection;
             while (connection){
-                // TODO: O vetor de connection esta cagado
                 Node* aux = connection->node;
                 node->newPR += 0.85 * aux->oldPR/aux->influenced;
                 connection = connection->next;
@@ -163,12 +159,18 @@ double changePRs(Node* node){
     return diff;
 }
 
-static int compareNodes(const void* n1, const void* n2) {
+/**
+ * Compara os valores de PageRank entre duas células
+ * @param n1 célula de um arquivo
+ * @param n2 célula de um arquivo
+ * @return -1, n1 >= n2 | 1 ou 0, n1 < n2
+ */
+static int compareNodesByPageRank(const void* n1, const void* n2) {
     const Node* pri = *(const Node**) n1;
     const Node* seg = *(const Node**) n2;
     return (pri->oldPR < seg->oldPR) - (pri->oldPR > seg->oldPR);
 }
 
 void sortNodeVector(Node** nodeVet, int size){
-    qsort(nodeVet, size, sizeof(Node*), compareNodes);
+    qsort(nodeVet, size, sizeof(Node*), compareNodesByPageRank);
 }
