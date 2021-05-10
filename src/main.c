@@ -1,20 +1,9 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-
 #include "page.h"
 #include "hash.h"
 #include "utils.h"
 
 #define HASH_SZ 509 
 
-/**
- * Frase explictiva sobre a funcao. 
- * @param {int}argc quantidade de argumentos
- * @param {char*}argv[] vetor de argumentos
- * 
- * @return 0 se sucesso, 1 se nao
- */
 int main(int argc, char *argv[]) {
     if (argc != 2)
         return 1;

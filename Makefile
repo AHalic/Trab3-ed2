@@ -24,7 +24,10 @@ DIR_ENT2  := ./ConjuntodeTeste2/teste100_2/
 DIR_ENT3  := ./ConjuntodeTeste1/teste30_1/
 DIR_ENT4  := ./ConjuntodeTeste2/teste10_2/
 DIR_ENT5  := ./ConjuntodeTeste2/teste50_2/
- 
+DIR_ENT6  := ./input/T_P500_S25_W500/
+DIR_ENT7  := ./input/T_P1000_S35_W1500/
+DIR_ENT8  := ./input/T_P5000_S25_W700/
+
 CINCLUDES	:= $(patsubst %,-I%, $(INCLUDEDIRS:%/=%))
 SOURCES		:= $(wildcard $(patsubst %,%/*.c, $(SOURCEDIRS)))
 OBJECTS		:= $(SOURCES:.c=.o)
@@ -40,6 +43,7 @@ run:
 	# ./$(EXECUTABLE) $(DIR_ENT0) ./output/
 	echo "run0"
 
+# Comandos de testes utilizados
 run0: 
 	@./$(EXECUTABLE) $(DIR_ENT0) 
 
@@ -58,6 +62,15 @@ run4:
 run5:
 	@./$(EXECUTABLE) $(DIR_ENT5)
 	
+run6:
+	@./$(EXECUTABLE) $(DIR_ENT6)
+
+run7:
+	@./$(EXECUTABLE) $(DIR_ENT7)
+
+run8:
+	@./$(EXECUTABLE) $(DIR_ENT8)
+
 $(EXECUTABLE): $(OBJECTS)
 	@$(CC) $(CFLAGS) $(CINCLUDES) $^ -o $@ $(LIBRARIES) -lm
 
@@ -66,14 +79,15 @@ val:
 	# valgrind ./$(EXECUTABLE) $(DIR_ENT0) $(SAIDA)
 	echo "val0"
 
+# Comandos de testes utilizados
 val0: 
 	@valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT0)
 
 val1:
-	@valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT1)
+	@valgrind --tool=massif ./$(EXECUTABLE) $(DIR_ENT1) 
 
 val2:
-	@valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT2)
+	@valgrind --tool=massif ./$(EXECUTABLE) $(DIR_ENT2)
 
 val3:
 	@valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT3)
@@ -83,3 +97,12 @@ val4:
 
 val5:
 	@valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT5)
+
+val6:
+	@valgrind ./$(EXECUTABLE) $(DIR_ENT6)
+
+val7:
+	@valgrind ./$(EXECUTABLE) $(DIR_ENT7)
+
+val8:
+	@valgrind ./$(EXECUTABLE) $(DIR_ENT8)
