@@ -16,3 +16,9 @@ trab3
 CMakeLists.txt
 cmake-build-debug
 .idea
+
+# outputs
+output
+input
+output/*
+input/*
