@@ -99,7 +99,7 @@ val5:
 	@valgrind --leak-check=full ./$(EXECUTABLE) $(DIR_ENT5)
 
 val6:
-	@valgrind ./$(EXECUTABLE) $(DIR_ENT6)
+	@valgrind --tool=massif ./$(EXECUTABLE) $(DIR_ENT6)
 
 val7:
 	@valgrind ./$(EXECUTABLE) $(DIR_ENT7)
