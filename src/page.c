@@ -25,7 +25,7 @@ Pages* filterPageList(Pages* baseList, Pages* filterList){
     while (base != NULL){
         int match = 1;
         baseNext = base->next;
-        filter = filterList;
+        filter = filterList; 
         
         // compara todos de filter para o no base
         while (filter != NULL){
@@ -33,8 +33,10 @@ Pages* filterPageList(Pages* baseList, Pages* filterList){
             && !strcmp(getFileName(filter->nodeFile), getFileName(base->nodeFile))) {
                 // achou nos iguais
                 match = 0;
-            }
-
+                filter = filter->next;
+                break;
+            } 
+            
 
             filter = filter->next;
         }
