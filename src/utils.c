@@ -186,8 +186,7 @@ void readPages(char* dir, Graph* graph, Trie* trie) {
             getline(&lineBuffer, &n, page);
             lineBuffer[strcspn(lineBuffer, "\r\n")] = '\0';
             char* token = strtok(lineBuffer, " ");
-            trimWhitespace(token);
-
+            
             while (token) {
                 insert(&trie , token, filesVector[i], false);  // false = nao eh stopword
                 token = strtok(NULL, " ");
