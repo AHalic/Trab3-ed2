@@ -35,7 +35,7 @@ Trie* initTrieNode() {
 void insert(Trie** head, char* string, Node* nodeFile, int isStop) {
 	// start from root node
     toLowerString(string);
-	Trie* curr = *head, *aux_trie;
+	Trie* curr = *head, *aux_trie = NULL;
 	while (*string) {
 		if((*string - '0')>=0 && (*string - '0')<=9){
 			// initTrieNode para digitos
@@ -60,7 +60,11 @@ void insert(Trie** head, char* string, Node* nodeFile, int isStop) {
 			}
             aux_trie = curr->characters[36];
 		} 
-
+		else {
+			string++;
+			continue;
+		}
+		
 		curr = aux_trie;
 		string++;
 	}
